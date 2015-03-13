@@ -1,3 +1,1 @@
-custom-application
-test
- gsdfsghdf
+Custom Application with Frontend and Admin
