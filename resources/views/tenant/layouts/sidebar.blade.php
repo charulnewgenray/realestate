@@ -16,7 +16,23 @@
                 <!-- END SIDEBAR TOGGLER BUTTON -->
             </li>
             <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-
+            <li class="sidebar-search-wrapper">
+                <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+                <!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+                <form class="sidebar-search " action="extra_search.html" method="POST">
+                    <a href="javascript:;" class="remove">
+                        <i class="icon-close"></i>
+                    </a>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+							<span class="input-group-btn">
+							<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
+							</span>
+                    </div>
+                </form>
+                <!-- END RESPONSIVE QUICK SEARCH FORM -->
+            </li>
             <li class="start {{Request::path() == 'admin' ? 'active' : ''}}">
                 <a href="javascript:;">
                     <i class="icon-home"></i>
@@ -25,19 +41,42 @@
                 </a>
             </li>
             <!-- BEGIN ANGULARJS LINK -->
-            <li class="tooltips {{Request::path() == 'tenant/applications' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true">
-                <a href="{{url('/tenant/applications')}}">
+            <li class="tooltips {{Request::path() == 'admin/applications' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true" data-original-title="Applications">
+                <a href="{{url('/admin/applications')}}">
                     <i class="icon-paper-plane"></i>
                      <span class="title">
                      Applications </span>
                 </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{route('tenant.applications.draft')}}">
+                            Draft Application</a>
+                    </li>
+                    <li>
+                        <a href="{{route('tenant.applications.submitted')}}">
+                            Submitted Application</a>
+                    </li>
+                </ul>
             </li>
-            <li class="tooltips {{Request::path() == 'tenant/work-orders' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true">
-                <a href="{{url('/tenant/work-orders')}}">
+            <li class="tooltips {{Request::path() == 'admin/work-order' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true" data-original-title="Applications">
+                <a href="{{url('/admin/work-order')}}">
                     <i class="icon-paper-plane"></i>
-                     <span class="title">
-                    Work Order </span>
+                    <span class="title">Work Order </span>
                 </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="form_controls.html">
+                            New Request</a>
+                    </li>
+                    <li>
+                        <a href="form_icheck.html">
+                            New Request</a>
+                    </li>
+                    <li>
+                        <a href="form_icheck.html">
+                            Settings</a>
+                    </li>
+                </ul>
             </li>
             <!-- END ANGULARJS LINK -->
         </ul>

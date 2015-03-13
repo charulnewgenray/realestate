@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\Customer\Property_Application;
 
 class RegisterController extends Controller {
 
@@ -104,7 +105,7 @@ class RegisterController extends Controller {
 
 	}
 	public function create(){
-		$application = DB::table('customer_property_application')->insertGetId(['user_id'=>Input::get('user_id'),'property_id'=>Input::get('property_id'),'status'=>'draft']);
+		$application = Property_Application::create(['user_id'=>Input::get('user_id'),'property_id'=>Input::get('property_id'),'status'=>'draft']);
 		return redirect()->to(route('register.application',array('id'=>$application)));
 	}
 

@@ -93,6 +93,9 @@ Route::group([
 		Route::get('/applications',['as' => 'tenant.applications.index','uses' => 'Tenant\ApplicationsController@index']);
 		Route::get('/show/{id}',['as' => 'tenant.applications.show','uses' => 'Tenant\ApplicationsController@show']);
 		Route::get('/work-orders',['as' => 'tenant.workorders','uses' => 'Tenant\WorkorderController@index']);
+		Route::get('/draft',['as' => 'tenant.applications.draft','uses' => 'Tenant\ApplicationsController@draft']);
+		Route::get('/submitted',['as' => 'tenant.applications.submitted','uses' => 'Tenant\ApplicationsController@submitted']);
+		Route::get('/showapplication/{id}',['as' => 'tenant.applications.showapplication','uses' => 'Tenant\ApplicationsController@showapplication']);
 	});
 });
 
