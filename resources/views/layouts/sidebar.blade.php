@@ -47,6 +47,16 @@
                      <span class="title">
                      Applications </span>
                 </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{route('admin.applications.draft')}}">
+                            Draft Application</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.applications.submitted')}}">
+                            Submitted Application</a>
+                    </li>
+				</ul>
             </li>
             <li class="tooltips {{Request::path() == 'admin/work-order' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true" data-original-title="Applications">
                 <a href="{{url('/admin/work-order')}}">

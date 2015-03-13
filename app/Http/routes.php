@@ -53,6 +53,9 @@ Route::group([
 		/*Administrator Management*/
 		Route::get('/',['as' => 'admin.dashboard.index','uses' => 'Admin\IndexController@index']);
 		Route::get('/applications',['as' => 'admin.applications.index','uses' => 'Admin\ApplicationsController@index']);
+		Route::get('/draft',['as' => 'admin.applications.draft','uses' => 'Admin\ApplicationsController@draft']);
+		Route::get('/submitted',['as' => 'admin.applications.submitted','uses' => 'Admin\ApplicationsController@submitted']);
+		Route::get('/showapplication/{id}',['as' => 'admin.applications.showapplication','uses' => 'Admin\ApplicationsController@showapplication']);
 		Route::get('/search',['as' => 'admin.applications.search','uses' => 'Admin\ApplicationsController@search']);
 		Route::get('/show/{id}',['as' => 'admin.applications.show','uses' => 'Admin\ApplicationsController@show']);
 		Route::get('/work-orders',['as' => 'tenant.workorder.index','uses' => 'Tenant\WorkorderController@index']);

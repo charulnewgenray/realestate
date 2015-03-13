@@ -59,6 +59,43 @@ class ApplicationsController extends Controller {
 
 
 	}
+	
+	public function draft(){
+		$draftApplication = DB::table('customer_property_application')->where('status','=','draft')->get();
+		return view('admin.draft',compact('draftApplication'));
+	}
+	
+	public function submitted(){
+		$submittedApplication = DB::table('customer_property_application')->where('status','=','submitted')->get();
+		return view('admin.submitted',compact('submittedApplication'));
+	}
+
+	public function showapplication($id){
+		if($id){
+			$personalInformation = DB::table('customer_personal_information as cpi')
+				->leftjoin('customer_current_residence_history as crh','crh.application_no','=','cpi.application_no')
+				->leftjoin('customer_previous_residence_history','customer_previous_residence_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_prior_residence_history','customer_prior_residence_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_occupants_information as coi','coi.application_no','=','cpi.application_no')
+				->leftjoin('customer_current_employment_history','customer_current_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_previous_employment_history','customer_previous_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_prior_employment_history','customer_prior_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_saving_credit_history','customer_saving_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_checking_credit_history','customer_checking_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_credit_credit_history','customer_credit_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_auto_credit_history','customer_auto_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_vehicles as cv','cv.application_no','=','cpi.application_no')
+				->leftjoin('customer_doctor_references','customer_doctor_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_lawyer_references','customer_lawyer_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_native_references','customer_native_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_general_information as cgi','cgi.application_no','=','cpi.application_no')
+				->where('cpi.application_no','=',$id)->first();
+			return view('admin.show-application',compact('personalInformation'));
+		}else{
+			$personalInformation = NULL;
+		}
+		return view('admin.show-application',compact('personalInformation'));
+	}
 
 	/**
 	 * Show the form for creating a new resource.
