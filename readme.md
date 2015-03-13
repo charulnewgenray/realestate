@@ -1,1 +1,1 @@
-Custom Application with Frontend and Admin
+Custom Application with Frontend
