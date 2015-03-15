@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	@include('tenant.layouts.head')
+	@include('admin.layouts.head')
 </head>
 <body class="page-header-fixed page-quick-sidebar-over-content page-style-square">
 
 @if(Auth::user())
-	@include('tenant.layouts.header')
+	@include('admin.layouts.header')
 	<div class="clearfix">
 	</div>
 	<!-- BEGIN CONTAINER -->
 	<div class="page-container">
-		@include('tenant.layouts.sidebar')
+		@include('admin.layouts.sidebar')
 		<div class="page-content-wrapper">
 			<div class="page-content">
-				@include('tenant.layouts.messages')
+				@include('admin.layouts.messages')
 				@yield('content')
 			</div>
 		</div>
 	</div>
 @endif
 
-@include('layouts.footer')
+@include('admin.layouts.footer')
 <!-- Scripts -->
-@include('tenant.layouts.differedscript')
+@include('admin.layouts.differedscript')
 @yield('page-scripts')
-
 </body>
 </html>

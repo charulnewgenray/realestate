@@ -11,8 +11,4 @@ class IndexController extends Controller {
         return view('tenant.dashboard');
     }
 
-    public function getWorkOrders(){
-        return view('tenant.workorders');
-    }
-
 }

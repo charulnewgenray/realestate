@@ -43,7 +43,7 @@
             <!-- BEGIN ANGULARJS LINK -->
             <li class="tooltips {{Request::path() == 'admin/applications' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true" data-original-title="Applications">
                 <a href="{{url('/admin/applications')}}">
-                    <i class="icon-paper-plane"></i>
+                    <i class="icon-pencil"></i>
                      <span class="title">
                      Applications </span>
                 </a>
@@ -58,23 +58,21 @@
                     </li>
                 </ul>
             </li>
-            <li class="tooltips {{Request::path() == 'admin/work-order' ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true" data-original-title="Applications">
+            <li class="{{strpos(Request::path(),'tenant/work-order') !== false  ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true">
                 <a href="{{url('/admin/work-order')}}">
-                    <i class="icon-paper-plane"></i>
+                    <i class="icon-envelope"></i>
                     <span class="title">Work Order </span>
                 </a>
                 <ul class="sub-menu">
-                    <li>
-                        <a href="form_controls.html">
+                    <li class="{{Request::path() == 'tenant/work-order' ? 'active' : ''}}">
+                        <a  href="{{URL::route('tenant.workorders.new')}}">
+                            <i class="icon-speech"></i>
                             New Request</a>
                     </li>
-                    <li>
-                        <a href="form_icheck.html">
-                            New Request</a>
-                    </li>
-                    <li>
-                        <a href="form_icheck.html">
-                            Settings</a>
+                    <li class="{{Request::path() == 'tenant/work-orders' ? 'active' : ''}}">
+                        <a href="{{URL::route('tenant.workorders')}}">
+                            <i class="icon-eye"></i>
+                            Requests</a>
                     </li>
                 </ul>
             </li>
