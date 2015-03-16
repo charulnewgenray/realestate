@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Customer\Personal_Information;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,59 +51,25 @@ class RegisterController extends Controller {
 		$formdata['lawyer_references']['application_no'] = 1;
 		$formdata['native_references']['application_no'] = 1;
 		$formdata['general_information']['application_no'] = 1;
-		$personalInformation = DB::table('customer_personal_information')->insert(
+		$personalInformation = Personal_Information::insert(
 			$formdata['personal_information']
 		);
-		$occupantsInformation = DB::table('customer_occupants_information')->insert(
-			$formdata['occupants_information']
-		);
-		$currentResidence = DB::table('customer_current_residence_history')->insert(
-			$formdata['current_residence_history']
-		);
-
-//		$previousResidence = DB::table('customer_previous_residence_history')->insert(
-//			$formdata['previous_residence_history']
-//		);
-//		$priorResidence = DB::table('customer_prior_residence_history')->insert(
-//			$formdata['prior_residence_history']
-//		);
-		$currentEmployment = DB::table('customer_current_employment_history')->insert(
-			$formdata['current_employment_history']
-		);
-		$previousEmployment = DB::table('customer_previous_employment_history')->insert(
-			$formdata['previous_employment_history']
-		);
-		$priorEmployment = DB::table('customer_prior_employment_history')->insert(
-			$formdata['prior_employment_history']
-		);
-		$savingCredit = DB::table('customer_saving_credit_history')->insert(
-			$formdata['saving_credit_history']
-		);
-		$checkingCredit = DB::table('customer_checking_credit_history')->insert(
-			$formdata['checking_credit_history']
-		);
-		$creditCredit = DB::table('customer_credit_credit_history')->insert(
-			$formdata['credit_credit_history']
-		);
-		$autoCredit = DB::table('customer_auto_credit_history')->insert(
-			$formdata['auto_credit_history']
-		);
-		$vehicles = DB::table('customer_vehicles')->insert(
-			$formdata['vehicles']
-		);
-		$doctorReferences = DB::table('customer_doctor_references')->insert(
-			$formdata['doctor_references']
-		);
-		$lawyerReferences = DB::table('customer_lawyer_references')->insert(
-			$formdata['lawyer_references']
-		);
-		$nativeReferences = DB::table('customer_native_references')->insert(
-			$formdata['native_references']
-		);
-		$generalInformation = DB::table('customer_general_information')->insert(
-			$formdata['general_information']
-		);
-
+		$createoccupantInfo = Occupants_Information::create($formdata['occupants_information']);
+		$createCurrentResidence = Current_Residence_History::create($formdata['current_residence_history']);
+		$createPreResidence = Previous_Residence_History::create($formdata['previous_residence_history']);
+		$createPriResidence = Prior_Residence_History::create($formdata['prior_residence_history']);
+		$createCurrentEmp = Current_Employment_History::create(	$formdata['current_employment_history']);
+		$createPreEmp = Previous_Employment_History::create($formdata['previous_employment_history']);
+		$createPriEmp = Prior_Employment_History::create($formdata['prior_employment_history']);
+		$createSavCredit = Saving_Credit_History::create($formdata['saving_credit_history']);
+		$createcheCredit = Checking_Credit_History::create($formdata['checking_credit_history']);
+		$createcreCredit = Credit_Credit_History::create($formdata['checking_credit_history']);
+		$createautCredit = Auto_Credit_History::create($formdata['auto_credit_history']);
+		$createvehicle = Vehicles::create($formdata['vehicles']);
+		$createdocReference = Doctor_References::create($formdata['doctor_references']);
+		$createlawReference = Lawyer_References::create($formdata['lawyer_references']);
+		$createnatReference = Native_References::create($formdata['native_references']);
+		$creategeneralInfo = General_Information::create($formdata['general_information']);
 	}
 	public function create(){
 		$application = Property_Application::create(['user_id'=>Input::get('user_id'),'property_id'=>Input::get('property_id'),'status'=>'draft']);
@@ -154,23 +121,23 @@ class RegisterController extends Controller {
 	public function show($id){
 		if(Auth::check()){
 			$userId =  Auth::user()->id;
-			$personalInformation = DB::table('customer_personal_information as cpi')
-				->join('customer_current_residence_history as crh','crh.application_no','=','cpi.application_no')
-				->join('customer_previous_residence_history','customer_previous_residence_history.application_no','=','cpi.application_no')
-				->join('customer_prior_residence_history','customer_prior_residence_history.application_no','=','cpi.application_no')
-				->join('customer_occupants_information as coi','coi.application_no','=','cpi.application_no')
-				->join('customer_current_employment_history','customer_current_employment_history.application_no','=','cpi.application_no')
-				->join('customer_previous_employment_history','customer_previous_employment_history.application_no','=','cpi.application_no')
-				->join('customer_prior_employment_history','customer_prior_employment_history.application_no','=','cpi.application_no')
-				->join('customer_saving_credit_history','customer_saving_credit_history.application_no','=','cpi.application_no')
-				->join('customer_checking_credit_history','customer_checking_credit_history.application_no','=','cpi.application_no')
-				->join('customer_credit_credit_history','customer_credit_credit_history.application_no','=','cpi.application_no')
-				->join('customer_auto_credit_history','customer_auto_credit_history.application_no','=','cpi.application_no')
-				->join('customer_vehicles as cv','cv.application_no','=','cpi.application_no')
-				->join('customer_doctor_references','customer_doctor_references.application_no','=','cpi.application_no')
-				->join('customer_lawyer_references','customer_lawyer_references.application_no','=','cpi.application_no')
-				->join('customer_native_references','customer_native_references.application_no','=','cpi.application_no')
-				->join('customer_general_information as cgi','cgi.application_no','=','cpi.application_no')
+			$personalInformation = DB::table('customer_personal_information as cpi')->select(array('*','cpi.application_no'))
+				->leftjoin('customer_current_residence_history as crh','crh.application_no','=','cpi.application_no')
+				->leftjoin('customer_previous_residence_history','customer_previous_residence_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_prior_residence_history','customer_prior_residence_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_occupants_information as coi','coi.application_no','=','cpi.application_no')
+				->leftjoin('customer_current_employment_history','customer_current_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_previous_employment_history','customer_previous_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_prior_employment_history','customer_prior_employment_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_saving_credit_history','customer_saving_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_checking_credit_history','customer_checking_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_credit_credit_history','customer_credit_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_auto_credit_history','customer_auto_credit_history.application_no','=','cpi.application_no')
+				->leftjoin('customer_vehicles as cv','cv.application_no','=','cpi.application_no')
+				->leftjoin('customer_doctor_references','customer_doctor_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_lawyer_references','customer_lawyer_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_native_references','customer_native_references.application_no','=','cpi.application_no')
+				->leftjoin('customer_general_information as cgi','cgi.application_no','=','cpi.application_no')
 				->where('cpi.application_no','=',$id)->first();
 
 			return view('register.register',compact('personalInformation'));
