@@ -90,7 +90,11 @@ class ApplicationsController extends Controller {
 				->leftjoin('customer_native_references','customer_native_references.application_no','=','cpi.application_no')
 				->leftjoin('customer_general_information as cgi','cgi.application_no','=','cpi.application_no')
 				->where('cpi.application_no','=',$id)->first();
+			if($personalInformation){
+
+			}
 			return view('admin.show-application',compact('personalInformation'));
+
 		}else{
 			$personalInformation = NULL;
 		}
