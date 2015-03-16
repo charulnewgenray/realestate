@@ -23,7 +23,7 @@
                 <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
                     <a href="{{route('admin.workorders')}}" class="dropdown-toggle"  data-hover="dropdown" data-close-others="true">
                         <i class="icon-bell"></i>
-                        <span class="badge badge-default new-workorder"> </span>
+                        <span class="badge badge-default new-workorder"> 0 </span>
                     </a>
                 </li>
                 <li class="dropdown dropdown-user">
