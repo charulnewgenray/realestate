@@ -3,7 +3,9 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Tenant\WorkOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class IndexController extends Controller {
 
@@ -12,74 +14,20 @@ class IndexController extends Controller {
 	 *
 	 * @return Response
 	 */
+	protected $workorder;
+
+	public function __construct(){
+		$this->workorder = WorkOrder::where('status','=','new')->count();
+	}
+
 	public function index()
 	{
-		//
-		return view('home');
+		return view('admin.dashboard');
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+	public function getNewWorkorders(){
+		return $this->workorder;
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
 
 }

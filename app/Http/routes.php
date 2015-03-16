@@ -51,15 +51,22 @@ Route::group([
 	Route::group(['prefix' => 'admin'], function ()
 	{
 		/*Administrator Management*/
+		Route::get('/new-workorders',['as' => 'admin.dashboard.newworkorders','uses' => 'Admin\IndexController@getNewWorkorders']);
 		Route::get('/',['as' => 'admin.dashboard.index','uses' => 'Admin\IndexController@index']);
 		Route::get('/applications',['as' => 'admin.applications.index','uses' => 'Admin\ApplicationsController@index']);
-		Route::get('/draft',['as' => 'admin.applications.draft','uses' => 'Admin\ApplicationsController@draft']);
-		Route::get('/submitted',['as' => 'admin.applications.submitted','uses' => 'Admin\ApplicationsController@submitted']);
-		Route::get('/showapplication/{id}',['as' => 'admin.applications.showapplication','uses' => 'Admin\ApplicationsController@showapplication']);
-		Route::get('/search',['as' => 'admin.applications.search','uses' => 'Admin\ApplicationsController@search']);
-		Route::get('/show/{id}',['as' => 'admin.applications.show','uses' => 'Admin\ApplicationsController@show']);
-		Route::get('/work-orders',['as' => 'tenant.workorder.index','uses' => 'Tenant\WorkorderController@index']);
-		Route::get('/work-orders',['as' => 'tenant.workorder.','uses' => 'Tenant\WorkorderController@index']);
+		Route::get('/applications/draft',['as' => 'admin.applications.draft','uses' => 'Admin\ApplicationsController@draft']);
+		Route::get('/applications/submitted',['as' => 'admin.applications.submitted','uses' => 'Admin\ApplicationsController@submitted']);
+		Route::get('/applications/{id}',['as' => 'admin.applications.showapplication','uses' => 'Admin\ApplicationsController@showapplication']);
+		Route::get('/applications/search',['as' => 'admin.applications.search','uses' => 'Admin\ApplicationsController@search']);
+		Route::get('/applications/show/{id}',['as' => 'admin.applications.show','uses' => 'Admin\ApplicationsController@show']);
+		/*Work order*/
+		Route::post('/work-order-img',['as' => 'admin.workorders.image','uses' => 'Admin\WorkorderController@upload']);
+		Route::get('/work-orders',['as' => 'admin.workorders','uses' => 'Admin\WorkorderController@index']);
+		Route::get('/work-orders/{id}',['as' => 'admin.workorders.show','uses' => 'Admin\WorkorderController@show']);
+		Route::post('/work-orders',['as' => 'tenant.workorder.update','uses' => 'Admin\WorkorderController@updateWorkorder']);
+		Route::get('/work-order/settings',['as' => 'admin.workorders.settings','uses' => 'Admin\WorkorderController@settings']);
+		Route::post('/work-order/settings/update',['as' => 'admin.workorder.settingsupdate','uses' => 'Admin\WorkorderController@updateSettings']);
+
 	});
 });
 
@@ -89,13 +96,18 @@ Route::group([
 	Route::group(['prefix' => 'tenant'], function ()
 	{
 		Route::get('/',['as' => 'tenant.dashboard.index','uses' => 'Tenant\IndexController@index']);
-		Route::get('/',['as' => 'tenant.work-orders','uses' => 'Tenant\IndexController@getWorkOrders']);
 		Route::get('/applications',['as' => 'tenant.applications.index','uses' => 'Tenant\ApplicationsController@index']);
 		Route::get('/show/{id}',['as' => 'tenant.applications.show','uses' => 'Tenant\ApplicationsController@show']);
-		Route::get('/work-orders',['as' => 'tenant.workorders','uses' => 'Tenant\WorkorderController@index']);
 		Route::get('/draft',['as' => 'tenant.applications.draft','uses' => 'Tenant\ApplicationsController@draft']);
 		Route::get('/submitted',['as' => 'tenant.applications.submitted','uses' => 'Tenant\ApplicationsController@submitted']);
 		Route::get('/showapplication/{id}',['as' => 'tenant.applications.showapplication','uses' => 'Tenant\ApplicationsController@showapplication']);
+
+		/*Work Order*/
+		Route::get('/work-order',['as' => 'tenant.workorders.new','uses' => 'Tenant\WorkorderController@newWorkOrder']);
+		Route::post('/work-order',['as' => 'tenant.workorders.create','uses' => 'Tenant\WorkorderController@create']);
+		Route::post('/work-order-img',['as' => 'tenant.workorders.image','uses' => 'Tenant\WorkorderController@upload']);
+		Route::get('/work-orders',['as' => 'tenant.workorders','uses' => 'Tenant\WorkorderController@index']);
+		Route::get('/work-orders/{id}',['as' => 'tenant.workorders.show','uses' => 'Tenant\WorkorderController@show']);
 	});
 });
 

@@ -1,11 +1,11 @@
-@extends('tenant.app')
+@extends('admin.app')
 
 @section('content')
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
         <div class="col-md-12">
             <!-- Begin: life time stats -->
-            <div class="portlet box blue">
+            <div class="portlet  box blue">
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-shopping-cart"></i>Work Orders
@@ -34,7 +34,7 @@
                                         <td>{{$workorder->phone}}</td>
                                         <td>{{$workorder->work_description}}</td>
                                         <td>{{$workorder->status}}</td>
-                                        <td><a href="{{route('tenant.workorders.show',$workorder->id)}}">View</a></td>
+                                        <td><a href="{{route('admin.workorders.show',$workorder->id)}}">View</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

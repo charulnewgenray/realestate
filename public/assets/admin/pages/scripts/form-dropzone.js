@@ -3,8 +3,7 @@ var FormDropzone = function () {
 
     return {
         //main function to initiate the module
-        init: function () {  
-
+        init: function () {
             Dropzone.options.myDropzone = {
                 init: function() {
                     this.on("addedfile", function(file) {
