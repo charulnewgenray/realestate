@@ -6,6 +6,23 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer\Personal_Information;
+use App\Models\Customer\Occupants_Information;
+use App\Models\Customer\Current_Residence_History;
+use App\Models\Customer\Previous_Residence_History;
+use App\Models\Customer\Prior_Residence_History;
+use App\Models\Customer\Current_Employment_History;
+use App\Models\Customer\Previous_Employment_History;
+use App\Models\Customer\Prior_Employment_History;
+use App\Models\Customer\Saving_Credit_History;
+use App\Models\Customer\Checking_Credit_History;
+use App\Models\Customer\Credit_Credit_History;
+use App\Models\Customer\Auto_Credit_History;
+use App\Models\Customer\Vehicles;
+use App\Models\Customer\Doctor_References;
+use App\Models\Customer\Lawyer_References;
+use App\Models\Customer\Native_References;
+use App\Models\Customer\General_Information;
 
 use Illuminate\Http\Request;
 use Monolog\Handler\NullHandlerTest;
@@ -80,7 +97,7 @@ class ApplicationsController extends Controller {
 
 	public function showapplication($id){
 		if($id){
-			$personalInformation = DB::table('customer_personal_information as cpi')
+			$personalInformation = DB::table('customer_personal_information as cpi')->select(array('*','cpi.application_no'))
 				->leftjoin('customer_current_residence_history as crh','crh.application_no','=','cpi.application_no')
 				->leftjoin('customer_previous_residence_history','customer_previous_residence_history.application_no','=','cpi.application_no')
 				->leftjoin('customer_prior_residence_history','customer_prior_residence_history.application_no','=','cpi.application_no')
@@ -102,13 +119,216 @@ class ApplicationsController extends Controller {
 				$personalInformation = array();
 				return view('tenant.show-application',compact('personalInformation'));
 			}else{
-				return view('tenant.show-application',compact('personalInformation'));
+				return view('tenant.show-application',compact('personalInformation','id'));
 			}
 
 		}else{
 			$personalInformation = array();
 		}
 		return view('tenant.show-application',compact('personalInformation'));
+	}
+
+	public  function updateIntoTable($table,$application_no,$formData){
+		$update = DB::table($table)->where('application_no', $application_no)->update($formData);
+		return $update;
+	}
+
+	public  function insertIntoTable($table,$application_no,$formData){
+		$insert = DB::table($table)->insert($formData);
+		return $insert;
+	}
+
+	public  function getDataFromTable($table,$application_no){
+		$find = DB::table($table)->select('application_no')->where('application_no', $application_no)->first();
+		return $find;
+	}
+
+	public function postapplication(){
+		$application_no = Input::get('application_no');
+		$formData  = Input::get();
+		$formData['customer_personal_information']['application_no'] = $application_no;
+		$formData['customer_occupants_information']['application_no'] = $application_no;
+		$formData['customer_current_residence_history']['application_no'] = $application_no;
+		$formData['customer_previous_residence_history']['application_no'] = $application_no;
+		$formData['customer_prior_residence_history']['application_no'] = $application_no;
+		$formData['customer_current_employment_history']['application_no'] = $application_no;
+		$formData['customer_previous_employment_history']['application_no'] = $application_no;
+		$formData['customer_prior_employment_history']['application_no'] = $application_no;
+		$formData['customer_saving_credit_history']['application_no'] = $application_no;
+		$formData['customer_checking_credit_history']['application_no'] = $application_no;
+		$formData['customer_credit_credit_history']['application_no'] = $application_no;
+		$formData['customer_auto_credit_history']['application_no'] = $application_no;
+		$formData['customer_vehicles']['application_no'] = $application_no;
+		$formData['customer_doctor_references']['application_no'] = $application_no;
+		$formData['customer_lawyer_references']['application_no'] = $application_no;
+		$formData['customer_native_references']['application_no'] = $application_no;
+		$formData['customer_general_information']['application_no'] = $application_no;
+
+		if(Input::get('customer_personal_information')){
+			$table = 'customer_personal_information';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_personal_information']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_personal_information']);
+			}
+
+		}
+		if(Input::get('customer_occupants_information')){
+			$table = 'customer_occupants_information';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_occupants_information']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_occupants_information']);
+			}
+		}
+		if(Input::get('customer_current_residence_history')){
+			$table = 'customer_current_residence_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_current_residence_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_current_residence_history']);
+			}
+		}
+		if(Input::get('customer_previous_residence_history')){
+			$table = 'customer_previous_residence_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_previous_residence_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_previous_residence_history']);
+			}
+		}
+		if(Input::get('customer_prior_residence_history')){
+			$table = 'customer_prior_residence_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_prior_residence_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_prior_residence_history']);
+			}
+		}
+		if(Input::get('customer_current_employment_history')){
+			$table = 'customer_current_employment_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_current_employment_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_current_employment_history']);
+			}
+		}
+		if(Input::get('customer_previous_employment_history')){
+			$table = 'customer_previous_employment_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_previous_employment_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_previous_employment_history']);
+			}
+		}
+		if(Input::get('customer_prior_employment_history')){
+			$table = 'customer_prior_employment_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_prior_employment_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_prior_employment_history']);
+			}
+		}
+		if(Input::get('customer_saving_credit_history')){
+			$table = 'customer_saving_credit_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_saving_credit_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_saving_credit_history']);
+			}
+		}
+		if(Input::get('customer_checking_credit_history')){
+			$table = 'customer_checking_credit_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_checking_credit_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_checking_credit_history']);
+			}
+		}
+		if(Input::get('customer_credit_credit_history')){
+			$table = 'customer_credit_credit_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_credit_credit_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_credit_credit_history']);
+			}
+		}
+		if(Input::get('customer_auto_credit_history')){
+			$table = 'customer_auto_credit_history';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_auto_credit_history']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_auto_credit_history']);
+			}
+		}
+		if(Input::get('customer_vehicles')){
+			$table = 'customer_vehicles';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_vehicles']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_vehicles']);
+			}
+		}
+		if(Input::get('customer_doctor_references')){
+			$table = 'customer_doctor_references';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_doctor_references']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_doctor_references']);
+			}
+		}
+		if(Input::get('customer_lawyer_references')){
+			$table = 'customer_lawyer_references';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_lawyer_references']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_lawyer_references']);
+			}
+		}
+		if(Input::get('customer_lawyer_references')){
+			$table = 'customer_lawyer_references';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_lawyer_references']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_lawyer_references']);
+			}
+		}
+		if(Input::get('customer_native_references')){
+			$table = 'customer_native_references';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_native_references']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_native_references']);
+			}
+		}
+		if(Input::get('customer_general_information')){
+			$table = 'customer_general_information';
+			$find = $this->getDataFromTable($table,$application_no);
+			if($find == NULL){
+				$insert = $this->insertIntoTable($table,$application_no,$formData['customer_general_information']);
+			}else{
+				$update = $this->updateIntoTable($table,$application_no,$formData['customer_general_information']);
+			}
+		}
+		return redirect()->back()->withInput()->with('success', 'Application Information has been successfully updated!.');;
+
 	}
 
 	/**

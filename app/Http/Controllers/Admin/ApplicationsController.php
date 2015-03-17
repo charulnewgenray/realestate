@@ -1,11 +1,14 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
+use App\Models\Customer\Property_Application;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Models\Admin\CustomerApplicationLog;
+use App\Http\Controllers\Admin\IndexController;
 use Illuminate\Http\Request;
 
 class ApplicationsController extends Controller {
@@ -15,6 +18,7 @@ class ApplicationsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
 	public function index()
 	{
 		$applications = DB::table('wp_tenant_meta as wtm')
@@ -61,16 +65,22 @@ class ApplicationsController extends Controller {
 	}
 	
 	public function draft(){
-		$draftApplication = DB::table('customer_property_application')->where('status','=','draft')->get();
+		$draftApplication = DB::table('customer_property_application')->where('status','=',Config::get('constants.application_draft'))->get();
 		return view('admin.draft',compact('draftApplication'));
 	}
 	
 	public function submitted(){
-		$submittedApplication = DB::table('customer_property_application')->where('status','=','submitted')->get();
+		$submittedApplication = DB::table('customer_property_application')->where('status','=',Config::get('constants.application_submitted'))->get();
 		return view('admin.submitted',compact('submittedApplication'));
 	}
 
+	public function accepted(){
+		$acceptedApplication = DB::table('customer_property_application')->where('status','=','Accepted')->get();
+		return view('admin.accepted',compact('acceptedApplication'));
+	}
+
 	public function showapplication($id){
+		$statusCode = ['Draft','Canceled','Completed'];
 		if($id){
 			$personalInformation = DB::table('customer_personal_information as cpi')
 				->leftjoin('customer_current_residence_history as crh','crh.application_no','=','cpi.application_no')
@@ -89,18 +99,40 @@ class ApplicationsController extends Controller {
 				->leftjoin('customer_lawyer_references','customer_lawyer_references.application_no','=','cpi.application_no')
 				->leftjoin('customer_native_references','customer_native_references.application_no','=','cpi.application_no')
 				->leftjoin('customer_general_information as cgi','cgi.application_no','=','cpi.application_no')
+				->leftjoin('customer_property_application as cap','cap.application_no','=','cpi.application_no')
 				->where('cpi.application_no','=',$id)->first();
-			if($personalInformation){
-
+			if($personalInformation==NULL){
+				$personalInformation = array();
 			}
-			return view('admin.show-application',compact('personalInformation'));
+
 
 		}else{
 			$personalInformation = NULL;
 		}
-		return view('admin.show-application',compact('personalInformation'));
+		$application_history = CustomerApplicationLog::where('application_no','=',$id)->get();
+		$statuses = DB::table('customer_application_status')->get();
+		return view('admin.show-application',compact('personalInformation','statuses','application_history','statusCode'));
 	}
 
+	public function applicationComment(){
+		$postComment = Input::except('_token');
+
+		if($postComment['application_cancel']){
+			$postComment['status'] = 'Canceled';
+			$comments = CustomerApplicationLog::create($postComment);
+			$propertyApplication  = Property_Application::where('application_no','=',Input::get('application_no'))->update(array('status'=>$postComment['status']));
+			return redirect()->back()->withErrors("Applicaiton history successfully canceled!.");
+		}else{
+			$comments = CustomerApplicationLog::create($postComment);
+			$propertyApplication  = Property_Application::where('application_no','=',Input::get('application_no'))->update(array('status'=>$postComment['status']));
+			return redirect()->back()->withErrors("Applicaiton history successfully updated!.");
+		}
+
+
+
+
+
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

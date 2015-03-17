@@ -1,73 +1,35 @@
 @extends('admin.app')
 
 @section('content')
-    <?php //var_dump($fixedStatusCode);die;?>
     <div class="row">
-        <div class="col-md-6 ">
-            <div class="portlet box blue">
-                <div class="portlet-title">
-                    <div class="caption">
-                        Work Order Categories
-                    </div>
-                </div>
-
-                <div class="portlet-body form">
-                    {!! Form::open(array('route' => 'admin.workorder.settingsupdate', 'method' => 'post'))!!}
-                    {!! Form::hidden('setting_code','category')!!}
-                    <div class="form-body">
-                        <div id="categories">
-                            @foreach($categories as $key => $categorie)
-                                <div class="row" data-category="{{$key}}">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="text" name="category[]" value="{{$categorie}}" class="form-control">
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn red editable-cancel delete" data-category="{{$key}}"><i class="fa fa-times"></i></button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="form-actions">
-                            <a id="add-category" class="btn green">Add</a>
-                            <button type="submit" class="btn blue">Update</button>
-                        </div>
-                    </div>
-                    {!! Form::close()!!}
-                </div>
-            </div>
-        </div>
         <div class="col-md-6 ">
             <div class="portlet box purple">
                 <div class="portlet-title">
                     <div class="caption">
-                        Work Order Status Codes
+                        Customer Application Status Codes
                     </div>
                 </div>
 
                 <div class="portlet-body form">
-                    {!! Form::open(array('route' => 'admin.workorder.settingsupdate', 'method' => 'post'))!!}
+                    {!! Form::open(array('route' => 'admin.general.updates', 'method' => 'post'))!!}
                     {!! Form::hidden('setting_code','status')!!}
                     <div class="form-body">
                         <div id="status">
-                            @foreach($status as $key => $code)
 
+                            @foreach($statuses as $key => $status)
                                 <div class="row" data-status="{{$key}}">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            @if(in_array($code,$fixedStatusCode))
-                                                <p class="form-control static">{{$code}}</p>
-                                                <input type="hidden" name="status[]" value="{{$code}}" class="form-control">
+                                            @if(in_array($status->status,$fixedStatusCode))
+                                                <p class="form-control static">{{$status->status}}</p>
+                                                <input type="hidden" name="status[]" value="{{$status->status}}" class="form-control">
                                             @else
-                                            <div class="input-group">
-                                                <input type="text" name="status[]" value="{{$code}}" class="form-control">
+                                                <div class="input-group">
+                                                    <input type="text" name="status[]" value="{{$status->status}}" class="form-control">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn red editable-cancel delete" data-status="{{$key}}"><i class="fa fa-times"></i></button>
                                                 </span>
-                                            </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>

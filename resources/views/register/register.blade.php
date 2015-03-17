@@ -13,6 +13,9 @@
 					{!! Form::model($personalInformation,array('method'=>'post','class'=> 'form-horizontal','url' => route('register.register.postRegister'), 'id'=>'submit_form')) !!}
 					    <input type="hidden" name="user_id" value="{{Auth::id()}}">
 						<input type="hidden" name="property_id" value="1">
+
+						<input type="hidden" name="application_no" value="@if($personalInformation)!=NULL){{$personalInformation->application_no}}@endif">
+
                         <div class="form-wizard">
                             <div class="form-body">
                                 <ul class="nav nav-pills nav-justified steps">
@@ -37,7 +40,7 @@
 												<span class="number">
 												3 </span>
 												<span class="desc">
-												<i class="fa fa-check"></i> Vehicles </span>
+												<i class="fa fa-check"></i> customer_vehicles </span>
                                         </a>
                                     </li>
                                     <li>
@@ -72,7 +75,7 @@
 																</label>
 
 													<div class="col-md-6">
-														{!!Form::text('first_name', null, array('class'=>'form-control', 'name'=>'personal_information[first_name]'))!!}
+														{!!Form::text('first_name', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[first_name]'))!!}
 																	<span class="help-block">
 																	Provide your username </span>
 													</div>
@@ -82,7 +85,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('middle_name', null, array('class'=>'form-control', 'name'=>'personal_information[middle_name]'))!!}
+														{!!Form::text('middle_name', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[middle_name]'))!!}
 																	<span class="help-block">
 																	Provide your middle name. </span>
 													</div>
@@ -92,7 +95,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('last_name', null, array('class'=>'form-control', 'name'=>'personal_information[last_name]'))!!}
+														{!!Form::text('last_name', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[last_name]'))!!}
 																	<span class="help-block">
 																	Provide your last name. </span>
 													</div>
@@ -102,7 +105,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('email', null, array('class'=>'form-control', 'name'=>'personal_information[email]','id'=>'email'))!!}
+														{!!Form::text('email', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[email]','id'=>'email'))!!}
 																	<span class="help-block" id="email-exist">
 																	Provide your email address </span>
 													</div>
@@ -112,7 +115,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('dob', null, array('class'=>'form-control', 'name'=>'personal_information[dob]'))!!}
+														{!!Form::text('dob', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[dob]'))!!}
 																	<span class="help-block">
 																	Provide birth date.</span>
 													</div>
@@ -124,7 +127,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('social_security', null, array('class'=>'form-control', 'name'=>'personal_information[social_security]'))!!}
+														{!!Form::text('social_security', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[social_security]'))!!}
 																	<span class="help-block">
 																	Provide Social Security.</span>
 													</div>
@@ -134,7 +137,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('driver_licence', null, array('class'=>'form-control', 'name'=>'personal_information[driver_licence]'))!!}
+														{!!Form::text('driver_licence', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[driver_licence]'))!!}
 																	<span class="help-block">
 																	Provide Driver Licence.</span>
 													</div>
@@ -144,7 +147,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('past_name', null, array('class'=>'form-control', 'name'=>'personal_information[past_name]'))!!}
+														{!!Form::text('past_name', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[past_name]'))!!}
 																	<span class="help-block">
 																	Provide Past Name.</span>
 													</div>
@@ -154,7 +157,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('home_phone', null, array('class'=>'form-control', 'name'=>'personal_information[home_phone]'))!!}
+														{!!Form::text('home_phone', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[home_phone]'))!!}
 																	<span class="help-block">
 																	Provide Home Phone.</span>
 													</div>
@@ -164,7 +167,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('cell_phone', null, array('class'=>'form-control', 'name'=>'personal_information[cell_phone]'))!!}
+														{!!Form::text('cell_phone', null, array('class'=>'form-control', 'name'=>'customer_personal_information[[cell_phone]'))!!}
 																	<span class="help-block">
 																	Provide Cell Phone.</span>
 													</div>
@@ -179,7 +182,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('occupant_name', null, array('class'=>'form-control', 'name'=>'occupants_information[occupant_name]'))!!}
+														{!!Form::text('occupant_name', null, array('class'=>'form-control', 'name'=>'customer_occupants_information[occupant_name]'))!!}
 																	<span class="help-block">
 																	Provide your occupant name </span>
 													</div>
@@ -189,7 +192,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('occupant_dob', null, array('class'=>'form-control', 'name'=>'occupants_information[occupant_dob]'))!!}
+														{!!Form::text('occupant_dob', null, array('class'=>'form-control', 'name'=>'customer_occupants_information[occupant_dob]'))!!}
 																	<span class="help-block">
 																	Provide your occupant birth date </span>
 													</div>
@@ -201,7 +204,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														{!!Form::text('occupant_relationship', null, array('class'=>'form-control', 'name'=>'occupants_information[occupant_relationship]'))!!}
+														{!!Form::text('occupant_relationship', null, array('class'=>'form-control', 'name'=>'customer_occupants_information[occupant_relationship]'))!!}
 																	<span class="help-block">
 																	Provide your occupant occupant relationship</span>
 													</div>
@@ -216,7 +219,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('cur_address', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_address]', 'rows'=>'5'))!!}
+														 {!!Form::textarea('cur_address', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_address]', 'rows'=>'5'))!!}
 																	<span class="help-block">
 																	Provide your street address</span>
 													</div>
@@ -227,7 +230,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('current_residence_history[cur_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_current_residence_history[cur_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide city</span>
 													</div>
@@ -237,7 +240,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_last_amount_paid', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_last_amount_paid]'))!!}
+														 {!!Form::text('cur_last_amount_paid', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_last_amount_paid]'))!!}
 																	<span class="help-block">
 																	Provide Last Rent Amount</span>
 													</div>
@@ -247,7 +250,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_owner', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_owner]'))!!}
+														 {!!Form::text('cur_owner', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_owner]'))!!}
 																	<span class="help-block">
 																	Provide owner</span>
 													</div>
@@ -257,7 +260,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_phone_no', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_phone_no]'))!!}
+														 {!!Form::text('cur_phone_no', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -267,7 +270,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('cur_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_reason_for_leaving]'))!!}
+														 {!!Form::textarea('cur_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_reason_for_leaving]'))!!}
 																	<span class="help-block">
 																	Provide Reason for leaving</span>
 													</div>
@@ -280,7 +283,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('current_residence_history[cur_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_current_residence_history[cur_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -291,9 +294,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="current_residence_history[cur_rent_paid_full]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_current_residence_history[cur_rent_paid_full]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="current_residence_history[cur_rent_paid_full]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_current_residence_history[cur_rent_paid_full]" value="no">
 														 <span style="color:red;">No</span>
 													</div>
 												</div>
@@ -302,9 +305,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="current_residence_history[cur_give_notice]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_current_residence_history[cur_give_notice]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="current_residence_history[cur_give_notice]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_current_residence_history[cur_give_notice]" value="no">
 														 <span style="color:red;">No</span>
 																	
 													</div>
@@ -314,7 +317,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_asked_to_move', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_asked_to_move]'))!!}
+														 {!!Form::text('cur_asked_to_move', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_asked_to_move]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -324,7 +327,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_utilities', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_utilities]'))!!}
+														 {!!Form::text('cur_utilities', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_utilities]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -334,7 +337,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_residence_from', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_residence_from]'))!!}
+														 {!!Form::text('cur_residence_from', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_residence_from]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -344,7 +347,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_residence_to', null, array('class'=>'form-control', 'name'=>'current_residence_history[cur_residence_to]'))!!}
+														 {!!Form::text('cur_residence_to', null, array('class'=>'form-control', 'name'=>'customer_current_residence_history[cur_residence_to]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -361,7 +364,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('pre_address', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_address]', 'rows'=>'5'))!!}
+														 {!!Form::textarea('pre_address', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_address]', 'rows'=>'5'))!!}
 																	<span class="help-block">
 																	Provide your street address</span>
 													</div>
@@ -372,7 +375,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('previous_residence_history[pre_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_previous_residence_history[pre_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide city</span>
 													</div>
@@ -382,7 +385,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_last_amount_paid', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_last_amount_paid]'))!!}
+														 {!!Form::text('pre_last_amount_paid', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_last_amount_paid]'))!!}
 																	<span class="help-block">
 																	Provide Last Rent Amount</span>
 													</div>
@@ -392,7 +395,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_owner', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_owner]'))!!}
+														 {!!Form::text('pre_owner', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_owner]'))!!}
 																	<span class="help-block">
 																	Provide owner</span>
 													</div>
@@ -402,7 +405,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_phone_no', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_phone_no]'))!!}
+														 {!!Form::text('pre_phone_no', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -412,7 +415,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('pre_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_reason_for_leaving]'))!!}
+														 {!!Form::textarea('pre_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_reason_for_leaving]'))!!}
 																	<span class="help-block">
 																	Provide Reason for leaving</span>
 													</div>
@@ -425,7 +428,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('previous_residence_history[pre_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_previous_residence_history[pre_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -436,9 +439,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="previous_residence_history[pre_rent_paid_full]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_previous_residence_history[pre_rent_paid_full]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="previous_residence_history[pre_rent_paid_full]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_previous_residence_history[pre_rent_paid_full]" value="no">
 														 <span style="color:red;">No</span>
 													</div>
 												</div>
@@ -447,9 +450,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="previous_residence_history[pre_give_notice]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_previous_residence_history[pre_give_notice]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="previous_residence_history[pre_give_notice]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_previous_residence_history[pre_give_notice]" value="no">
 														 <span style="color:red;">No</span>
 																	
 													</div>
@@ -459,7 +462,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_asked_to_move', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_asked_to_move]'))!!}
+														 {!!Form::text('pre_asked_to_move', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_asked_to_move]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -469,7 +472,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_utilities', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_utilities]'))!!}
+														 {!!Form::text('pre_utilities', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_utilities]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -479,7 +482,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_residence_from', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_residence_from]'))!!}
+														 {!!Form::text('pre_residence_from', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_residence_from]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -489,7 +492,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_residence_to', null, array('class'=>'form-control', 'name'=>'previous_residence_history[pre_residence_to]'))!!}
+														 {!!Form::text('pre_residence_to', null, array('class'=>'form-control', 'name'=>'customer_previous_residence_history[pre_residence_to]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -508,7 +511,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('pri_address', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_address]', 'rows'=>'5'))!!}
+														 {!!Form::textarea('pri_address', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_address]', 'rows'=>'5'))!!}
 																	<span class="help-block">
 																	Provide your street address</span>
 													</div>
@@ -519,7 +522,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('prior_residence_history[pri_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_prior_residence_history[pri_city]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide city</span>
 													</div>
@@ -529,7 +532,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_last_amount_paid', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_last_amount_paid]'))!!}
+														 {!!Form::text('pri_last_amount_paid', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_last_amount_paid]'))!!}
 																	<span class="help-block">
 																	Provide Last Rent Amount</span>
 													</div>
@@ -539,7 +542,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_owner', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_owner]'))!!}
+														 {!!Form::text('pri_owner', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_owner]'))!!}
 																	<span class="help-block">
 																	Provide owner</span>
 													</div>
@@ -549,7 +552,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_phone_no', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_phone_no]'))!!}
+														 {!!Form::text('pri_phone_no', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -559,7 +562,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::textarea('pri_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_reason_for_leaving]'))!!}
+														 {!!Form::textarea('pri_reason_for_leaving', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_reason_for_leaving]'))!!}
 																	<span class="help-block">
 																	Provide Reason for leaving</span>
 													</div>
@@ -572,7 +575,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::select('prior_residence_history[pri_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
+														 {!!Form::select('customer_prior_residence_history[pri_state]', array('Cats' => array('leopard' => 'Leopard'),'Dogs' => array('spaniel' => 'Spaniel'),));!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -583,9 +586,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="prior_residence_history[pri_rent_paid_full]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_prior_residence_history[pri_rent_paid_full]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="prior_residence_history[pri_rent_paid_full]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_prior_residence_history[pri_rent_paid_full]" value="no">
 														 <span style="color:red;">No</span>
 													</div>
 												</div>
@@ -594,9 +597,9 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 <input type="radio" class="form-control font_input" name="prior_residence_history[pri_give_notice]" value="yes">
+														 <input type="radio" class="form-control font_input" name="customer_prior_residence_history[pri_give_notice]" value="yes">
 														 <span style="color:red;">Yes</span>
-														 <input type="radio" class="form-control font_input" name="prior_residence_history[pri_give_notice]" value="no">
+														 <input type="radio" class="form-control font_input" name="customer_prior_residence_history[pri_give_notice]" value="no">
 														 <span style="color:red;">No</span>
 																	
 													</div>
@@ -606,7 +609,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_asked_to_move', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_asked_to_move]'))!!}
+														 {!!Form::text('pri_asked_to_move', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_asked_to_move]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -616,7 +619,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_utilities', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_utilities]'))!!}
+														 {!!Form::text('pri_utilities', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_utilities]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -626,7 +629,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_residence_from', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_residence_from]'))!!}
+														 {!!Form::text('pri_residence_from', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_residence_from]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -636,7 +639,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_residence_to', null, array('class'=>'form-control', 'name'=>'prior_residence_history[pri_residence_to]'))!!}
+														 {!!Form::text('pri_residence_to', null, array('class'=>'form-control', 'name'=>'customer_prior_residence_history[pri_residence_to]'))!!}
 																	<span class="help-block">
 																	Provide asked to move</span>
 													</div>
@@ -658,7 +661,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_company', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_company]'))!!}
+														 {!!Form::text('cur_emp_company', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_company]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -668,7 +671,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_address', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_address]'))!!}
+														 {!!Form::text('cur_emp_address', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_address]'))!!}
 																	<span class="help-block">
 																	Provide address</span>
 													</div>
@@ -678,7 +681,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_phone_no', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_phone_no]'))!!}
+														 {!!Form::text('cur_emp_phone_no', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -688,7 +691,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_occupation', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_occupation]'))!!}
+														 {!!Form::text('cur_emp_occupation', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_occupation]'))!!}
 																	<span class="help-block">
 																	Provide Occupation</span>
 													</div>
@@ -698,7 +701,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_supervisor', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_supervisor]'))!!}
+														 {!!Form::text('cur_emp_supervisor', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_supervisor]'))!!}
 																	<span class="help-block">
 																	Provide Supervisor</span>
 													</div>
@@ -710,7 +713,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_gross_pay]'))!!}
+														 {!!Form::text('cur_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_gross_pay]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -721,7 +724,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_employment_from', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_employment_from]'))!!}
+														 {!!Form::text('cur_emp_employment_from', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_employment_from]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -732,7 +735,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cur_emp_employment_to', null, array('class'=>'form-control', 'name'=>'current_employment_history[cur_emp_employment_to]'))!!}
+														 {!!Form::text('cur_emp_employment_to', null, array('class'=>'form-control', 'name'=>'customer_current_employment_history[cur_emp_employment_to]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -749,7 +752,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_company', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_company]'))!!}
+														 {!!Form::text('pre_emp_company', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_company]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -759,7 +762,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_address', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_address]'))!!}
+														 {!!Form::text('pre_emp_address', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_address]'))!!}
 																	<span class="help-block">
 																	Provide address</span>
 													</div>
@@ -769,7 +772,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_phone_no', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_phone_no]'))!!}
+														 {!!Form::text('pre_emp_phone_no', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -779,7 +782,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_occupation', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_occupation]'))!!}
+														 {!!Form::text('pre_emp_occupation', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_occupation]'))!!}
 																	<span class="help-block">
 																	Provide Occupation</span>
 													</div>
@@ -789,7 +792,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_supervisor', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_supervisor]'))!!}
+														 {!!Form::text('pre_emp_supervisor', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_supervisor]'))!!}
 																	<span class="help-block">
 																	Provide Supervisor</span>
 													</div>
@@ -801,7 +804,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_gross_pay]'))!!}
+														 {!!Form::text('pre_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_gross_pay]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -812,7 +815,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_employment_from', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_employment_from]'))!!}
+														 {!!Form::text('pre_emp_employment_from', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_employment_from]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -823,7 +826,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pre_emp_employment_to', null, array('class'=>'form-control', 'name'=>'previous_employment_history[pre_emp_employment_to]'))!!}
+														 {!!Form::text('pre_emp_employment_to', null, array('class'=>'form-control', 'name'=>'customer_previous_employment_history[pre_emp_employment_to]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -842,7 +845,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_company', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_company]'))!!}
+														 {!!Form::text('pri_emp_company', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_company]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -852,7 +855,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_address', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_address]'))!!}
+														 {!!Form::text('pri_emp_address', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_address]'))!!}
 																	<span class="help-block">
 																	Provide address</span>
 													</div>
@@ -862,7 +865,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_phone_no', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_phone_no]'))!!}
+														 {!!Form::text('pri_emp_phone_no', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_phone_no]'))!!}
 																	<span class="help-block">
 																	Provide Phone No</span>
 													</div>
@@ -872,7 +875,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_occupation', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_occupation]'))!!}
+														 {!!Form::text('pri_emp_occupation', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_occupation]'))!!}
 																	<span class="help-block">
 																	Provide Occupation</span>
 													</div>
@@ -882,7 +885,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_supervisor', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_supervisor]'))!!}
+														 {!!Form::text('pri_emp_supervisor', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_supervisor]'))!!}
 																	<span class="help-block">
 																	Provide Supervisor</span>
 													</div>
@@ -894,7 +897,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_gross_pay]'))!!}
+														 {!!Form::text('pri_emp_gross_pay', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_gross_pay]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -905,7 +908,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_employment_from', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_employment_from]'))!!}
+														 {!!Form::text('pri_emp_employment_from', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_employment_from]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -916,7 +919,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('pri_emp_employment_to', null, array('class'=>'form-control', 'name'=>'prior_employment_history[pri_emp_employment_to]'))!!}
+														 {!!Form::text('pri_emp_employment_to', null, array('class'=>'form-control', 'name'=>'customer_prior_employment_history[pri_emp_employment_to]'))!!}
 																	<span class="help-block">
 																	Date of Employment From</span>
 													</div>
@@ -935,7 +938,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('sav_bank_name', null, array('class'=>'form-control', 'name'=>'saving_credit_history[sav_bank_name]'))!!}
+														 {!!Form::text('sav_bank_name', null, array('class'=>'form-control', 'name'=>'customer_saving_credit_history[sav_bank_name]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -948,7 +951,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('sav_balance', null, array('class'=>'form-control', 'name'=>'saving_credit_history[sav_balance]'))!!}
+														 {!!Form::text('sav_balance', null, array('class'=>'form-control', 'name'=>'customer_saving_credit_history[sav_balance]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -969,7 +972,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('che_bank_name', null, array('class'=>'form-control', 'name'=>'checking_credit_history[che_bank_name]'))!!}
+														 {!!Form::text('che_bank_name', null, array('class'=>'form-control', 'name'=>'customer_checking_credit_history[che_bank_name]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -982,7 +985,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('che_balance', null, array('class'=>'form-control', 'name'=>'checking_credit_history[che_balance]'))!!}
+														 {!!Form::text('che_balance', null, array('class'=>'form-control', 'name'=>'customer_checking_credit_history[che_balance]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -1003,7 +1006,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cre_bank_name', null, array('class'=>'form-control', 'name'=>'credit_credit_history[cre_bank_name]'))!!}
+														 {!!Form::text('cre_bank_name', null, array('class'=>'form-control', 'name'=>'customer_credit_credit_history[cre_bank_name]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -1016,7 +1019,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('cre_balance', null, array('class'=>'form-control', 'name'=>'credit_credit_history[cre_balance]'))!!}
+														 {!!Form::text('cre_balance', null, array('class'=>'form-control', 'name'=>'customer_credit_credit_history[cre_balance]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -1037,7 +1040,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('aut_bank_name', null, array('class'=>'form-control', 'name'=>'auto_credit_history[aut_bank_name]'))!!}
+														 {!!Form::text('aut_bank_name', null, array('class'=>'form-control', 'name'=>'customer_auto_credit_history[aut_bank_name]'))!!}
 																	<span class="help-block">
 																	Provide company</span>
 													</div>
@@ -1050,7 +1053,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('aut_balance', null, array('class'=>'form-control', 'name'=>'auto_credit_history[aut_balance]'))!!}
+														 {!!Form::text('aut_balance', null, array('class'=>'form-control', 'name'=>'customer_auto_credit_history[aut_balance]'))!!}
 																	<span class="help-block">
 																	Provide Monthly Gross Pay</span>
 													</div>
@@ -1067,7 +1070,7 @@
                                         
                                     </div>
                                     <div class="tab-pane" id="tab3">
-                                        <!-- start of vehicles history -->
+                                        <!-- start of customer_vehicles history -->
 										<h3 class="block">Vehicle History</h3>
 										<div class="row">
 											<div class="col-sm-6">
@@ -1076,7 +1079,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('make', null, array('class'=>'form-control', 'name'=>'vehicles[make]'))!!}
+														 {!!Form::text('make', null, array('class'=>'form-control', 'name'=>'customer_vehicles[make]'))!!}
 																	<span class="help-block">
 																	Provide Make</span>
 													</div>
@@ -1086,7 +1089,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('color', null, array('class'=>'form-control', 'name'=>'vehicles[color]'))!!}
+														 {!!Form::text('color', null, array('class'=>'form-control', 'name'=>'customer_vehicles[color]'))!!}
 																	<span class="help-block">
 																	Provide Color</span>
 													</div>
@@ -1096,7 +1099,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('licence', null, array('class'=>'form-control', 'name'=>'vehicles[licence]'))!!}
+														 {!!Form::text('licence', null, array('class'=>'form-control', 'name'=>'customer_vehicles[licence]'))!!}
 																	<span class="help-block">
 																	Provide Licence</span>
 													</div>
@@ -1109,7 +1112,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('model', null, array('class'=>'form-control', 'name'=>'vehicles[model]'))!!}
+														 {!!Form::text('model', null, array('class'=>'form-control', 'name'=>'customer_vehicles[model]'))!!}
 																	<span class="help-block">
 																	Provide Model</span>
 													</div>
@@ -1119,14 +1122,14 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('year', null, array('class'=>'form-control', 'name'=>'vehicles[year]'))!!}
+														 {!!Form::text('year', null, array('class'=>'form-control', 'name'=>'customer_vehicles[year]'))!!}
 																	<span class="help-block">
 																	Provide Year</span>
 													</div>
 												</div>
 											</div>
 										</div>
-										<!-- end of vehicles history -->
+										<!-- end of customer_vehicles history -->
 										
 										<!-- start of doctor references -->
 										<h3 class="block">Doctor References</h3>
@@ -1137,7 +1140,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_name', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_name]'))!!}
+														 {!!Form::text('doc_name', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_name]'))!!}
 																	<span class="help-block">
 																	Provide Name</span>
 													</div>
@@ -1147,7 +1150,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_city', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_city]'))!!}
+														 {!!Form::text('doc_city', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_city]'))!!}
 																	<span class="help-block">
 																	Provide City</span>
 													</div>
@@ -1157,7 +1160,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_zip_code', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_zip_code]'))!!}
+														 {!!Form::text('doc_zip_code', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_zip_code]'))!!}
 																	<span class="help-block">
 																	Provide Zip Code</span>
 													</div>
@@ -1170,7 +1173,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_address', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_address]'))!!}
+														 {!!Form::text('doc_address', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_address]'))!!}
 																	<span class="help-block">
 																	Provide Street Address</span>
 													</div>
@@ -1180,7 +1183,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_state', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_state]'))!!}
+														 {!!Form::text('doc_state', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_state]'))!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -1190,7 +1193,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('doc_contact_no', null, array('class'=>'form-control', 'name'=>'doctor_references[doc_contact_no]'))!!}
+														 {!!Form::text('doc_contact_no', null, array('class'=>'form-control', 'name'=>'customer_doctor_references[doc_contact_no]'))!!}
 																	<span class="help-block">
 																	Provide Contact</span>
 													</div>
@@ -1208,7 +1211,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_name', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_name]'))!!}
+														 {!!Form::text('law_name', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_name]'))!!}
 																	<span class="help-block">
 																	Provide Name</span>
 													</div>
@@ -1218,7 +1221,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_city', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_city]'))!!}
+														 {!!Form::text('law_city', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_city]'))!!}
 																	<span class="help-block">
 																	Provide City</span>
 													</div>
@@ -1228,7 +1231,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_zip_code', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_zip_code]'))!!}
+														 {!!Form::text('law_zip_code', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_zip_code]'))!!}
 																	<span class="help-block">
 																	Provide Zip Code</span>
 													</div>
@@ -1241,7 +1244,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_address', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_address]'))!!}
+														 {!!Form::text('law_address', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_address]'))!!}
 																	<span class="help-block">
 																	Provide Street Address</span>
 													</div>
@@ -1251,7 +1254,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_state', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_state]'))!!}
+														 {!!Form::text('law_state', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_state]'))!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -1261,7 +1264,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('law_contact_no', null, array('class'=>'form-control', 'name'=>'lawyer_references[law_contact_no]'))!!}
+														 {!!Form::text('law_contact_no', null, array('class'=>'form-control', 'name'=>'customer_lawyer_references[law_contact_no]'))!!}
 																	<span class="help-block">
 																	Provide Contact</span>
 													</div>
@@ -1279,7 +1282,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_name', null, array('class'=>'form-control', 'name'=>'native_references[nat_name]'))!!}
+														 {!!Form::text('nat_name', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_name]'))!!}
 																	<span class="help-block">
 																	Provide Name</span>
 													</div>
@@ -1289,7 +1292,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_city', null, array('class'=>'form-control', 'name'=>'native_references[nat_city]'))!!}
+														 {!!Form::text('nat_city', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_city]'))!!}
 																	<span class="help-block">
 																	Provide City</span>
 													</div>
@@ -1299,7 +1302,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_zip_code', null, array('class'=>'form-control', 'name'=>'native_references[nat_zip_code]'))!!}
+														 {!!Form::text('nat_zip_code', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_zip_code]'))!!}
 																	<span class="help-block">
 																	Provide Zip Code</span>
 													</div>
@@ -1312,7 +1315,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_address', null, array('class'=>'form-control', 'name'=>'native_references[nat_address]'))!!}
+														 {!!Form::text('nat_address', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_address]'))!!}
 																	<span class="help-block">
 																	Provide Street Address</span>
 													</div>
@@ -1322,7 +1325,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_state', null, array('class'=>'form-control', 'name'=>'native_references[nat_state]'))!!}
+														 {!!Form::text('nat_state', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_state]'))!!}
 																	<span class="help-block">
 																	Provide State</span>
 													</div>
@@ -1332,7 +1335,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('nat_contact_no', null, array('class'=>'form-control', 'name'=>'native_references[nat_contact_no]'))!!}
+														 {!!Form::text('nat_contact_no', null, array('class'=>'form-control', 'name'=>'customer_native_references[nat_contact_no]'))!!}
 																	<span class="help-block">
 																	Provide Contact</span>
 													</div>
@@ -1352,7 +1355,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_1', null, array('class'=>'form-control', 'name'=>'general_information[question_1]'))!!}
+														 {!!Form::text('question_1', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_1]'))!!}
 																	
 													</div>
 												</div>
@@ -1361,7 +1364,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_2', null, array('class'=>'form-control', 'name'=>'general_information[question_2]'))!!}
+														 {!!Form::text('question_2', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_2]'))!!}
 																	
 													</div>
 												</div>
@@ -1370,7 +1373,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_3', null, array('class'=>'form-control', 'name'=>'general_information[question_3]'))!!}
+														 {!!Form::text('question_3', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_3]'))!!}
 																	
 													</div>
 												</div>
@@ -1379,7 +1382,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_4', null, array('class'=>'form-control', 'name'=>'general_information[question_4]'))!!}
+														 {!!Form::text('question_4', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_4]'))!!}
 																	
 													</div>
 												</div>
@@ -1388,7 +1391,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_5', null, array('class'=>'form-control', 'name'=>'general_information[question_5]'))!!}
+														 {!!Form::text('question_5', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_5]'))!!}
 																	
 													</div>
 												</div>
@@ -1397,7 +1400,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_6', null, array('class'=>'form-control', 'name'=>'general_information[question_6]'))!!}
+														 {!!Form::text('question_6', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_6]'))!!}
 																	
 													</div>
 												</div>
@@ -1406,7 +1409,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_7', null, array('class'=>'form-control', 'name'=>'general_information[question_7]'))!!}
+														 {!!Form::text('question_7', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_7]'))!!}
 																	
 													</div>
 												</div>
@@ -1415,7 +1418,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_8', null, array('class'=>'form-control', 'name'=>'general_information[question_8]'))!!}
+														 {!!Form::text('question_8', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_8]'))!!}
 																	
 													</div>
 												</div>
@@ -1424,7 +1427,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_9', null, array('class'=>'form-control', 'name'=>'general_information[question_9]'))!!}
+														 {!!Form::text('question_9', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_9]'))!!}
 																	
 													</div>
 												</div>
@@ -1433,7 +1436,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_10', null, array('class'=>'form-control', 'name'=>'general_information[question_10]'))!!}
+														 {!!Form::text('question_10', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_10]'))!!}
 																	
 													</div>
 												</div>
@@ -1442,7 +1445,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_11', null, array('class'=>'form-control', 'name'=>'general_information[question_11]'))!!}
+														 {!!Form::text('question_11', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_11]'))!!}
 																	
 													</div>
 												</div>
@@ -1451,7 +1454,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_12', null, array('class'=>'form-control', 'name'=>'general_information[question_12]'))!!}
+														 {!!Form::text('question_12', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_12]'))!!}
 																	
 													</div>
 												</div>
@@ -1460,7 +1463,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_13', null, array('class'=>'form-control', 'name'=>'general_information[question_13]'))!!}
+														 {!!Form::text('question_13', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_13]'))!!}
 																	
 													</div>
 												</div>
@@ -1469,7 +1472,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_14', null, array('class'=>'form-control', 'name'=>'general_information[question_14]'))!!}
+														 {!!Form::text('question_14', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_14]'))!!}
 																	
 													</div>
 												</div>
@@ -1478,7 +1481,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_15', null, array('class'=>'form-control', 'name'=>'general_information[question_15]'))!!}
+														 {!!Form::text('question_15', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_15]'))!!}
 																	
 													</div>
 												</div>
@@ -1487,7 +1490,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_16', null, array('class'=>'form-control', 'name'=>'general_information[question_16]'))!!}
+														 {!!Form::text('question_16', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_16]'))!!}
 																	
 													</div>
 												</div>
@@ -1496,7 +1499,7 @@
 																* </span>
 													</label>
 													<div class="col-md-6">
-														 {!!Form::text('question_17', null, array('class'=>'form-control', 'name'=>'general_information[question_17]'))!!}
+														 {!!Form::text('question_17', null, array('class'=>'form-control', 'name'=>'customer_general_information[question_17]'))!!}
 																	
 													</div>
 												</div>

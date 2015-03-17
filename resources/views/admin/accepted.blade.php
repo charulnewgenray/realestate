@@ -1,16 +1,13 @@
-@extends('tenant.app')
+@extends('admin.app')
 
 @section('content')
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
         <div class="col-sm-12">
-			<div class="note note-success">
-				<h4>Load Draft Application</h4>
-				<!--<p>Description</p>-->
-			</div>
+			<h4>Load Accepted Application</h4>
 		</div>
-
-    </div>
+	</div>
+	<hr>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -21,11 +18,11 @@
 				</tr>
 			</thead>
 			<tbody class="applicant-data">
-				@foreach($draftApplication as $draft)
+				@foreach($acceptedApplication as $accepted)
 				<tr>
-					<td>{{$draft->application_no}}</td>
-					<td>{{$draft->applicant_email}}</td>
-					<td><a href="{{route('tenant.applications.showapplication',['id'=>$draft->application_no])}}">Load</a></td>
+					<td>{{$accepted->application_no}}</td>
+					<td>{{$accepted->applicant_email}}</td>
+					<td><a href="{{route('admin.applications.showapplication',['id'=>$accepted->application_no])}}">Load</a></td>
 				</tr>
 				@endforeach
 			</tbody>

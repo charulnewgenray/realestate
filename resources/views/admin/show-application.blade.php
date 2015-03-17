@@ -2,11 +2,21 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-sm-12">
-			<div class="note note-success">
-				<h4>Application Information</h4>
-				<!--<p>Description</p>-->
+		<div class="col-sm-6">
+			<h4>Application Information</h4>
+		</div>
+		@if(!in_array($personalInformation->status,$statusCode))
+			<div class="col-sm-6">
+				<div class="pull-right">
+					<button class="btn btn-sm red filter-cancel" id="application_cancel"><i class="fa fa-times"></i>Cancel</button>
+				</div>
 			</div>
+		@endif
+
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-sm-12">
 			<div class="tabbable tabbable-custom">
 				<ul class="nav nav-tabs">
 					<li class="active">
@@ -1013,5 +1023,61 @@
 			</div>
 		</div>
 	</div>
+	@if(!in_array($personalInformation->status,$statusCode))
 
+		<div class="row well">
+			<h4>Application History</h4>
+			@foreach($application_history as $application)
+				<div class="col-xs-2">{{$application->updated_at}}</div>
+				<div class="col-xs-2">{{$application->status}}</div>
+				<div class="col-xs-8">{{$application->comment}}</div>
+			@endforeach
+		</div>
+		<div class="row">
+			{!! Form::model($personalInformation,array('method'=>'post','class'=> 'form-horizontal','url' => route('admin.applications.comment'), 'id'=>'submit_form')) !!}
+			<input type="hidden" name="application_no" value="{{$personalInformation->application_no}}"/>
+			<input type="hidden" name="application_cancel" id="application_cancel_val" value=""/>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label for="Update Status" class="control-label col-md-2">Update Status</label>
+						<div class="col-md-10">
+							<select class="form-control" required="required" name="status">
+								@foreach($statuses as $status)
+									<option value="{{$status->status}}">{{$status->status}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							{!! Form::label('Comment','',array('class' => 'control-label col-md-2')) !!}
+							<div class="col-md-10">
+								{!! Form::textarea('comment','',array('class' => 'form-control' , 'required' => 'required')) !!}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-offset-2 col-md-10">
+						<button type="submit" class="btn yellow">Update</button>
+					</div>
+				</div>
+			{!! Form::close() !!}
+		</div>
+	@endif
+
+@endsection
+@section('page-scripts')
+	<script>
+		/* Model Actions*/
+		$(document).ready(function() {
+			$('#application_cancel').click(function(){
+				$('#application_cancel_val').val('1');
+				$('#submit_form textarea').val('Application has canceled by admin!.');
+				$('#submit_form').submit();
+			});
+		});
+	</script>
 @endsection

@@ -26,6 +26,12 @@
                         <span class="badge badge-default new-workorder"> 0 </span>
                     </a>
                 </li>
+                <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                    <a href="{{route('admin.applications.submitted')}}" class="dropdown-toggle"  data-hover="dropdown" data-close-others="true">
+                        <i class="icon-envelope-open"></i>
+                        <span class="badge badge-default new-applications"> 0 </span>
+                    </a>
+                </li>
                 <li class="dropdown dropdown-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <img alt="" class="img-circle" src="/assets/admin/layout/img/avatar3_small.jpg"/>
@@ -54,6 +60,10 @@
             $.get( "{{route('admin.dashboard.newworkorders')}}")
                     .done(function( data ) {
                         $('.dropdown-notification .new-workorder').text(data);
+                    });
+            $.get( "{{route('admin.dashboard.newapplications')}}")
+                    .done(function( data ) {
+                        $('.dropdown-notification .new-application').text(data);
                     });
         });
     </script>

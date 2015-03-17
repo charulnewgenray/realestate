@@ -52,13 +52,18 @@ Route::group([
 	{
 		/*Administrator Management*/
 		Route::get('/new-workorders',['as' => 'admin.dashboard.newworkorders','uses' => 'Admin\IndexController@getNewWorkorders']);
+		Route::get('/new-applications',['as' => 'admin.dashboard.newapplications','uses' => 'Admin\IndexController@getNewApplications']);
 		Route::get('/',['as' => 'admin.dashboard.index','uses' => 'Admin\IndexController@index']);
 		Route::get('/applications',['as' => 'admin.applications.index','uses' => 'Admin\ApplicationsController@index']);
 		Route::get('/applications/draft',['as' => 'admin.applications.draft','uses' => 'Admin\ApplicationsController@draft']);
 		Route::get('/applications/submitted',['as' => 'admin.applications.submitted','uses' => 'Admin\ApplicationsController@submitted']);
+		Route::get('/applications/accepted',['as' => 'admin.applications.accepted','uses' => 'Admin\ApplicationsController@accepted']);
 		Route::get('/applications/{id}',['as' => 'admin.applications.showapplication','uses' => 'Admin\ApplicationsController@showapplication']);
 		Route::get('/applications/search',['as' => 'admin.applications.search','uses' => 'Admin\ApplicationsController@search']);
 		Route::get('/applications/show/{id}',['as' => 'admin.applications.show','uses' => 'Admin\ApplicationsController@show']);
+		Route::post('/applications/comment',['as' => 'admin.applications.comment','uses' => 'Admin\ApplicationsController@applicationComment']);
+		Route::get('/general/settings',['as' => 'admin.general.settings','uses' => 'Admin\IndexController@settings']);
+		Route::post('/general/settings',['as' => 'admin.general.updates','uses' => 'Admin\IndexController@updateSettings']);
 		/*Work order*/
 		Route::post('/work-order-img',['as' => 'admin.workorders.image','uses' => 'Admin\WorkorderController@upload']);
 		Route::get('/work-orders',['as' => 'admin.workorders','uses' => 'Admin\WorkorderController@index']);
@@ -101,6 +106,7 @@ Route::group([
 		Route::get('/draft',['as' => 'tenant.applications.draft','uses' => 'Tenant\ApplicationsController@draft']);
 		Route::get('/submitted',['as' => 'tenant.applications.submitted','uses' => 'Tenant\ApplicationsController@submitted']);
 		Route::get('/showapplication/{id}',['as' => 'tenant.applications.showapplication','uses' => 'Tenant\ApplicationsController@showapplication']);
+		Route::post('/postapplication',['as' => 'tenant.applications.postapplication','uses' => 'Tenant\ApplicationsController@postapplication']);
 
 		/*Work Order*/
 		Route::get('/work-order',['as' => 'tenant.workorders.new','uses' => 'Tenant\WorkorderController@newWorkOrder']);

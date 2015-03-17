@@ -28,6 +28,7 @@
                      Applications </span>
                 </a>
                 <ul class="sub-menu">
+                    <li>{{Request::path() }}</li>
                     <li class="{{Request::path() == 'admin/applications/draft' ? 'active' : ''}}">
                         <a href="{{route('admin.applications.draft')}}">
                             Draft Application</a>
@@ -35,6 +36,10 @@
                     <li class="{{Request::path() == 'admin/applications/submitted' ? 'active' : ''}}">
                         <a href="{{route('admin.applications.submitted')}}">
                             Submitted Application</a>
+                    </li>
+                    <li class="{{Request::path() == 'admin/applications/accepted' ? 'active' : ''}}">
+                        <a href="{{route('admin.applications.accepted')}}">
+                            Accepted Application</a>
                     </li>
 				</ul>
             </li>
@@ -55,6 +60,11 @@
                             Settings</a>
                     </li>
                 </ul>
+            </li>
+            <li class="{{Request::path() == 'admin/general/settings' ? 'active' : ''}}">
+                <a href="{{URL::route('admin.general.settings')}}">
+                    <i class="icon-settings"></i>
+                    Settings</a>
             </li>
             <!-- END ANGULARJS LINK -->
         </ul>

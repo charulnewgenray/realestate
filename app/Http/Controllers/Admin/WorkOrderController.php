@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Input;
 
 class WorkOrderController extends Controller {
 
+    public $statusCode;
+
+    public function __construct(){
+        $this->statusCode = ['Draft','Canceled','Completed','Submitted','New'];
+    }
+
     public function index(){
         $workorders = WorkOrder::orderBy('id','desc')->get();
         return view('admin.workorders',compact('workorders'));
@@ -42,8 +48,9 @@ class WorkOrderController extends Controller {
 
     public function settings(){
         $categories = DB::table('work_order_category')->lists('category','category');
+        $fixedStatusCode = $this->statusCode;
         $status = DB::table('work_order_status')->lists('status','id');
-        return view('admin.workorder-settings',compact('categories','status'));
+        return view('admin.workorder-settings',compact('categories','status','fixedStatusCode'));
     }
     public function updateSettings(){
         if(Input::get('setting_code') == 'category'){

@@ -1,4 +1,4 @@
-@extends('app')
+@extends('tenant.app')
 
 @section('content')
     <!-- BEGIN PAGE CONTENT-->
