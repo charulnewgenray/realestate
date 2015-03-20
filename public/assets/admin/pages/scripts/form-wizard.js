@@ -222,19 +222,16 @@ var FormWizard = function () {
                         return false;
                     }else{
                         var form_data = $('#submit_form').serialize();
+
                         var token = $('#submit_form > input[name="_token"]').val();
                         var url = 'postRegister';
                         $.ajax({
                             type: 'post',
-                            url: 'postRegister',
+                            url: url,
                             dataType: 'json',
                             data: { _token: token, form: form_data },
                             success: function(data) {
-                                //for(var key in data)
-                                //{
-                                //    //alert(key)
-                                //}
-                                //alert(data.message);
+                                console.log(data.status);
                             }
                         });
                     }

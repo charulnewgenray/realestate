@@ -66,6 +66,11 @@
                     <i class="icon-settings"></i>
                     Settings</a>
             </li>
+            <li class="{{Request::path() == 'admin/form/settings' ? 'active' : ''}}">
+                <a href="{{URL::route('admin.form.settings')}}">
+                    <i class="icon-settings"></i>
+                    Form Settings</a>
+            </li>
             <!-- END ANGULARJS LINK -->
         </ul>
         <!-- END SIDEBAR MENU -->

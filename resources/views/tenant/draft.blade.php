@@ -4,13 +4,10 @@
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
         <div class="col-sm-12">
-			<div class="note note-success">
-				<h4>Load Draft Application</h4>
-				<!--<p>Description</p>-->
-			</div>
+			<h4>Load Draft Application</h4>
 		</div>
-
-    </div>
+	</div>
+	<hr>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>

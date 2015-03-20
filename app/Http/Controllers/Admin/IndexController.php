@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Customer\Customer_Application_Table;
 use App\Models\Tenant\WorkOrder;
 use App\Models\Customer\Property_Application;
 use Illuminate\Http\Request;
@@ -59,6 +60,44 @@ class IndexController extends Controller {
 		return redirect()->back()->withSuccess('Updated successfully.');
 	}
 
+	public function formSettings(){
+		$statuses = array();
+		$tableMap = [];
+		$tableList = Customer_Application_Table::get();
+		foreach($tableList as $table){
+			$tableMap[$table->table_name] = DB::table($table->table_name.'_map')->where('meta','=','0')->get();
+
+		}
+		return view('admin.form-settings',compact('tableList','tableMap'));
+	}
+	public function postformSettings(){
+		$table = Input::get('table_name');
+//		dd($table);
+		$tableForm  = Input::get('row');
+//		dd($tableForm);
+
+		DB::beginTransaction();
+		try{
+
+//				DB::table($table)->truncate();
+				DB::table($table)->where('meta','=','0')->delete();
+				if($tableForm){
+					DB::table($table)->insert($tableForm);
+				}
+				DB::commit();
+
+
+
+
+		}
+		catch(\Exception $e){
+			DB::rollback();
+			dd($e);
+			//return redirect()->withErrors($e);
+		}
+
+		return redirect()->route('admin.form.settings');
+	}
 
 
 }

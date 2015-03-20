@@ -63,6 +63,8 @@ Route::group([
 		Route::get('/applications/show/{id}',['as' => 'admin.applications.show','uses' => 'Admin\ApplicationsController@show']);
 		Route::post('/applications/comment',['as' => 'admin.applications.comment','uses' => 'Admin\ApplicationsController@applicationComment']);
 		Route::get('/general/settings',['as' => 'admin.general.settings','uses' => 'Admin\IndexController@settings']);
+		Route::get('/form/settings',['as' => 'admin.form.settings','uses' => 'Admin\IndexController@formSettings']);
+		Route::post('/postform/settings',['as' => 'admin.form.postsettings','uses' => 'Admin\IndexController@postformSettings']);
 		Route::post('/general/settings',['as' => 'admin.general.updates','uses' => 'Admin\IndexController@updateSettings']);
 		/*Work order*/
 		Route::post('/work-order-img',['as' => 'admin.workorders.image','uses' => 'Admin\WorkorderController@upload']);
