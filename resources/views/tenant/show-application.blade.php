@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="pull-right">
-				<button class="btn btn-sm red filter-cancel"><i class="fa fa-times"></i>Cancel</button>
+				<button class="btn btn-sm red filter-cancel">Cancel</button>
 				<button type="submit" class="btn btn-sm green">Submit</button>
 			</div>
 

@@ -6,7 +6,10 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "5.0.*",
-	  	"rappasoft/vault": "dev-master"
+	  	"rappasoft/vault": "dev-master",
+		"thujohn/pdf": "~1.0",
+		"barryvdh/laravel-dompdf": " 0.5.*",
+		"vsmoraes/laravel-pdf": "~1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

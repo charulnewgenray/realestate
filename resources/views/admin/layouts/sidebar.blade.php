@@ -28,7 +28,7 @@
                      Applications </span>
                 </a>
                 <ul class="sub-menu">
-                    <li>{{Request::path() }}</li>
+                    {{--<li>{{Request::path() }}</li>--}}
                     <li class="{{Request::path() == 'admin/applications/draft' ? 'active' : ''}}">
                         <a href="{{route('admin.applications.draft')}}">
                             Draft Application</a>
@@ -39,7 +39,7 @@
                     </li>
                     <li class="{{Request::path() == 'admin/applications/accepted' ? 'active' : ''}}">
                         <a href="{{route('admin.applications.accepted')}}">
-                            Accepted Application</a>
+                            Approved Application</a>
                     </li>
 				</ul>
             </li>
@@ -71,7 +71,33 @@
                     <i class="icon-settings"></i>
                     Form Settings</a>
             </li>
+
+            <li class="{{strpos(Request::path(),'admin/applications') !== false  ? 'active' : ''}}" data-container="body" data-placement="right" data-html="true">
+                <a href="{{url('/admin/applications')}}">
+                    <i class="icon-paper-plane"></i>
+                     <span class="title">
+                     Tenants </span>
+                </a>
+                <ul class="sub-menu">
+                    {{--<li>{{Request::path() }}</li>--}}
+                    <li class="{{Request::path() == 'admin/tenant/active' ? 'active' : ''}}">
+                        <a href="{{route('admin.tenant.active')}}">
+                            Active</a>
+                    </li>
+                    <li class="{{Request::path() == 'admin/tenant/pending' ? 'active' : ''}}">
+                        <a href="{{route('admin.tenant.pending')}}">
+                            Inactive</a>
+                    </li>
+                    <li class="{{Request::path() == 'admin/tenant/canceled' ? 'active' : ''}}">
+                        <a href="{{route('admin.tenant.canceled')}}">
+                            Canceled</a>
+                    </li>
+                </ul>
+            </li>
+
             <!-- END ANGULARJS LINK -->
+
+
         </ul>
         <!-- END SIDEBAR MENU -->
     </div>

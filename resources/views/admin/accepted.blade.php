@@ -4,7 +4,7 @@
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
         <div class="col-sm-12">
-			<h4>Load Accepted Application</h4>
+			<h4>Load Approved Application</h4>
 		</div>
 	</div>
 	<hr>

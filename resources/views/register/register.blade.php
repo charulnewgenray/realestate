@@ -8,20 +8,32 @@
 	}if(isset($dataMap)){
 	}else{
 		$dataMap = [];
+	}
+	if(isset($id)){
+	}else{
+		$id = "";
 	}?>
-	<h3 class="page-title register-title">
-		New Application <small>for renting a property</small>
-
-	</h3>
+	<div class="row">
+		<div class="col-sm-6">
+			<h3 class="page-title register-title">
+				New Application <small>for renting a property</small>
+			</h3>
+			
+		</div>
+		<div class="col-sm-6">
+			<h3 class="pull-right page-title register-title" style="padding-right: 10px;">
+				<button type="button" id="load_application" class="btn btn-sm red">Load Data</button>
+			</h3>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="portlet box" id="form_wizard_1">
 				<div class="portlet-body form">
 					{!! Form::model($data,array('method'=>'post','class'=> 'form-horizontal','url' => route('register.register.postRegister'), 'id'=>'submit_form')) !!}
-					<?php $application_no = "1";?>
 					<input type="hidden" name="user_id" value="{{Auth::id()}}">
 					<input type="hidden" name="property_id" value="1">
-					<input type="hidden" name="application_no" value="{{$application_no}}">
+					<input type="hidden" name="application_no" value="{{$id}}">
 					<div class="form-wizard">
 						<div class="form-body">
 							<ul class="nav nav-pills nav-justified steps">
@@ -30,7 +42,7 @@
 											<span class="number">
 											1 </span>
 											<span class="desc">
-											<i class="fa fa-check"></i> Personal</span>
+											<i class="fa fa-check"></i> Personal & Residence</span>
 									</a>
 								</li>
 								<li>
@@ -38,7 +50,7 @@
 											<span class="number">
 											2 </span>
 											<span class="desc">
-											<i class="fa fa-check"></i> Employment</span>
+											<i class="fa fa-check"></i> Employment & Credit</span>
 									</a>
 								</li>
 								<li>
@@ -46,7 +58,7 @@
 											<span class="number">
 											3 </span>
 											<span class="desc">
-											<i class="fa fa-check"></i> customer_vehicles </span>
+											<i class="fa fa-check"></i>Vehicle & References </span>
 									</a>
 								</li>
 								<li>
@@ -54,7 +66,7 @@
 											<span class="number">
 											4 </span>
 											<span class="desc">
-											<i class="fa fa-check"></i> General Information </span>
+											<i class="fa fa-check"></i>General Information </span>
 									</a>
 								</li>
 							</ul>
@@ -71,28 +83,39 @@
 							<button class="close" data-dismiss="alert"></button>
 							Your form validation is successful!
 						</div>
-						
-						<?php $section_count = 0;$tabId = 1;?>
+						<?php $tabVal = 0;?>
 						@foreach($dataMap as $key=>$value)
 							<?php $index = 0;?>
-							@if($dataSection[$key]['section'] != $section_count)
-							
-							<div class="tab-pane active" id="tab{{$tabId}}">
+							<?php if($dataSection[$key]['section'] != $tabVal){?>
+								<?php if($tabVal){?>
+								
+									</div>
+								<?php }?>
+							<?php }?>
+							<?php if($dataSection[$key]['section'] == $tabVal){?>
+								
+							<?php }else{ ?>
+								<div class="tab-pane active" id="tab{{$dataSection[$key]['section']}}">
+								<?php $tabVal = $dataSection[$key]['section'];?>
+							<?php }?>
 							<h3 class="block">{{$dataSection[$key]['heading']}}</h3>
 							<div class="row">
-							@endif
 							@foreach($value as $field)
 								<?php $fieldName = $field->field; ?>
-								<div class="col-lg-4 col-md-6 col-xs-6">
+								<?php if($dataSection[$key]['heading'] == "General Information"){?>
+									<div class="col-lg-12 col-md-12 col-xs-12">
+								<?php }else{?>
+									<div class="col-lg-4 col-md-6 col-xs-6">
+								<?php }?>
 									<div class="form-group">
 										<label class="control-label col-md-4">{{$field->label}}</label>
 										<div class="col-md-8">
 											@if($field->meta)
-												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="">
+												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
 											@else
-												<input type="hidden" name="{{$key .'_meta['.$index.']['.'application_no'.']'}}" class="form-control input-sm" value="{{$application_no}}" placeholder="">
-												<input type="hidden" name="{{$key .'_meta['.$index.'][field_name]'}}" class="form-control input-sm" value="{{$field->field}}" placeholder="">
-												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="">
+												<input type="hidden" name="{{$key .'_meta['.$index.']['.'application_no'.']'}}" class="form-control input-sm" value="{{$id}}" placeholder="">
+												<input type="hidden" name="{{$key .'_meta['.$index.'][field_name]'}}" class="form-control input-sm" value="{{$field->field}}" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
+												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
 											@endif
 
 
@@ -103,11 +126,7 @@
 
 							<?php $index++;?>
 							@endforeach
-							@if($dataSection[$key]['section'] != $section_count)
 							</div>
-						</div>
-							<?php $section_count++;$tabId++;?>
-							@endif
 							
 						@endforeach
 						
@@ -268,6 +287,42 @@
 		</div>
 	</div>
 	<!-- Applicant Model -->
+	
+	<!-- Load Application Model-->
+	<div class="modal fade" id="loadApplicationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<!-- The form is placed inside the body of modal -->
+					<div class="row">
+						<div class="col-sm-7">
+							<h4 class="modal-header">Load Data of Previous Application</h4>
+						</div>
+						<div class="col-sm-5">
+							<div class="pull-right"><button class="btn btn-sm red filter-cancel" id="close_load_application">Cancel</button></div>
+						</div>
+					</div>
+					
+					<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Application No.</th>
+								<th>Applicant</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody class="load-applicant-data">
+
+						</tbody>
+
+					</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Load Application Model -->
 
 @endsection
 @section('page-script')
@@ -277,6 +332,7 @@
 		jQuery(document).ready(function() {
 			
 			var application_url = "{{route('register.application.index')}}";
+			var load_application_url = "/register/loadApplication";
 			var current_url = "{{Request::path()}}";
 			@if(!Auth::check())
 				jQuery('#loginModal').modal('show');
@@ -291,7 +347,7 @@
 									jQuery('.new-application input[name="user_id"]').val(data.user_id);
 									var html = '';
 									$.each(data.data,function(i,val){
-										html += '<tr><td>'+i+'</td><td>'+val+'</td><td><a href="'+application_url+'/'+i+'">Load</a></td></tr>';
+										html += '<tr><td>'+i+'</td><td>'+val+'</td><td><a href="'+application_url+'/'+i+'">Open</a></td></tr>';
 									});
 									jQuery('.applicant-data').append(html);
 									jQuery('#loginModal').modal('hide');
@@ -330,8 +386,9 @@
 									jQuery('.new-application input[name="user_id"]').val(data.user_id);
 									var html = '';
 									$.each(data.data,function(i,val){
-										html += '<tr><td>'+i+'</td><td>'+val+'</td><td><a href="'+application_url+'/'+i+'">Load</a></td></tr>';
+										html += '<tr><td>'+i+'</td><td>'+val+'</td><td><a href="'+application_url+'/'+i+'">Open</a></td></tr>';
 									});
+									
 									jQuery('.applicant-data').append(html);
 									jQuery('#loginModal').modal('hide');
 									jQuery('#signupModal').modal('hide');
@@ -366,8 +423,44 @@
 							}
 						});
 			});
+		jQuery('#load_application').click(function(e){
+				var application_no = jQuery('#submit_form input[name="application_no"]').val();
+				e.preventDefault();
+
+				$.post("{{route('register.application.get')}}", {
+										'_token': jQuery('#submit_form input[name="_token"]').val(),
+										'application_no':jQuery('#submit_form input[name="application_no"]').val()}
+				).done(function(data){
+							if(data.status == 'success'){
+							if(data.data != ''){
+									jQuery('.new-application input[name="user_id"]').val(data.user_id);
+									var html = '';
+									$.each(data.data,function(i,val){
+										html += '<tr><td>'+i+'</td><td>'+val+'</td><td><a href="'+load_application_url+'/'+i+'/'+application_no+'">Load</a></td></tr>';
+									});
+									
+									jQuery('.load-applicant-data').html(html);
+									jQuery('#loadApplicationModal').modal('show');
+								}else{
+									location.reload();
+								}
 
 
+							}
+							else{
+								jQuery('#loginForm .error-message').text(data.message);
+							}
+						});
+			});
+		
+		jQuery('#close_load_application').click(function(){
+			jQuery('#loadApplicationModal').modal('hide');
+		});
+		
+		
+		
+		
+		
 });
     </script>
     @endsection

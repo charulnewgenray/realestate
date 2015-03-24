@@ -256,7 +256,19 @@ var FormWizard = function () {
 
             $('#form_wizard_1').find('.button-previous').hide();
             $('#form_wizard_1 .button-submit').click(function () {
-                alert('Finished! Hope you like it :)');
+                var form_data = $('#submit_form').serialize();
+
+                var token = $('#submit_form > input[name="_token"]').val();
+                var url = 'postRegister';
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    data: { _token: token, form: form_data,'make_pdf':1},
+                    success: function(data) {
+                        console.log(data.status);
+                    }
+                });
             }).hide();
 
             //apply validation on select2 dropdown value change, this only needed for chosen dropdown integration.

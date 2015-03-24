@@ -27,6 +27,7 @@ Route::get('/home', function(){
 
 Route::get('/register', 'RegisterController@index');
 Route::get('/register/application',['as' => 'register.application.index','uses' => 'RegisterController@index']);
+Route::get('/register/loadApplication/{id}/{application_no}',['as' => 'register.application.load','uses' => 'RegisterController@load']);
 Route::get('/register/application/{id}',['as' => 'register.application','uses' => 'RegisterController@show']);
 Route::post('/register/login',['as' => 'register.login','uses' => 'RegisterController@login']);
 Route::post('/register/signup',['as' => 'register.signup','uses' => 'RegisterController@signup']);
@@ -73,6 +74,14 @@ Route::group([
 		Route::post('/work-orders',['as' => 'tenant.workorder.update','uses' => 'Admin\WorkorderController@updateWorkorder']);
 		Route::get('/work-order/settings',['as' => 'admin.workorders.settings','uses' => 'Admin\WorkorderController@settings']);
 		Route::post('/work-order/settings/update',['as' => 'admin.workorder.settingsupdate','uses' => 'Admin\WorkorderController@updateSettings']);
+		/* tenants */
+		Route::get('/tenant/active',['as' => 'admin.tenant.active','uses' => 'Admin\TenantController@active']);
+		Route::get('/tenant/pending',['as' => 'admin.tenant.pending','uses' => 'Admin\TenantController@pending']);
+		Route::get('/tenant/canceled',['as' => 'admin.tenant.canceled','uses' => 'Admin\TenantController@canceled']);
+		Route::get('/tenant/activeinfo/{id}',['as' => 'admin.tenant.activeinfo','uses' => 'Admin\TenantController@activeinfo']);
+		Route::get('/tenant/pendinginfo/{id}',['as' => 'admin.tenant.pendinginfo','uses' => 'Admin\TenantController@pendinginfo']);
+		Route::get('/tenant/canceledinfo/{id}',['as' => 'admin.tenant.canceledinfo','uses' => 'Admin\TenantController@canceledinfo']);
+		Route::post('/tenant/pendingpost',['as' => 'admin.tenant.pendingpost','uses' => 'Admin\TenantController@pendingpost']);
 
 	});
 });
