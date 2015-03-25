@@ -24,7 +24,15 @@ Route::get('/home', function(){
 	else return Redirect::to('/');
 
 });
+$router->get('/pdf/output', function() {
+	$html = view('pdf')->render();
+//	return PDF::load($html)->show();
+	PDF::load($html)
+		->filename('D:\Server\example1.pdf')
+		->output();
 
+	return 'PDF saved';
+});
 Route::get('/register', 'RegisterController@index');
 Route::get('/register/application',['as' => 'register.application.index','uses' => 'RegisterController@index']);
 Route::get('/register/loadApplication/{id}/{application_no}',['as' => 'register.application.load','uses' => 'RegisterController@load']);

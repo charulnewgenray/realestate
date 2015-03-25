@@ -8,7 +8,7 @@
     <hr>
     <div class="row">
         <div class="portlet-body form">
-            {!! Form::open(array('method'=>'post','class'=> 'form-horizontal','url' => route('admin.tenant.pendingpost'))) !!}
+            {!! Form::open(array('method'=>'post','class'=> 'form-horizontal','enctype' => 'multipart/form-data','url' => route('admin.tenant.pendingpost'))) !!}
                 <input type="hidden" name="applicant_email" value="{{$applicationInfo->applicant_email}}">
                 <input type="hidden" name="application_no" value="{{$applicationInfo->application_no}}">
                 <input type="hidden" name="user_id" value="{{$applicationInfo->user_id}}">
@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Upload Lease Documents</label>
                         <div class="col-md-6">
-                            <input type="file" name="path" value="" class="form-control">
+                            <input type="file" name="file" value="" class="form-control">
                         </div>
                     </div>
                 </div>

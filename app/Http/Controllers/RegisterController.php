@@ -13,12 +13,11 @@ use Illuminate\Support\Facades\Input;
 use App\Models\Customer\Property_Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Vsmoraes\Pdf\PdfFacade;
+
 
 
 class RegisterController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -139,12 +138,6 @@ class RegisterController extends Controller
 
 	public function show($id)
 	{
-//		//$html = view('register.pdf-view')->render();
-//		$html = 'test';
-//		PdfFacade::load($html)->filename('/pdf/example1.pdf')
-//			->output();;
-//		return 'Pdf Saved';
-//			die;
 		if (Auth::check()) {
 			$userId = Auth::user()->id;
 			$data = [];

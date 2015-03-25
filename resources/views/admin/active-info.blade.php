@@ -34,16 +34,15 @@
                             <label class="control-label">Lease Documents</label>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label">1 .Pdf</label>
+                    @foreach($leaseDocuments as $key => $leaseDocument)
+                        <div class="col-sm-12">
+                            <label class="col-md-1 control-label"><?php echo $key+1;?></label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"><a href="/{{$leaseDocument->path}}">{{$leaseDocument->path}}</a></p>
+                                <!--<label class="control-label col-md-6">{{$leaseDocument->path}}</label>-->
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label">2 .Pdf</label>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="col-sm-6">
                     <div class="col-sm-12">
