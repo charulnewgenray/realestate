@@ -65,7 +65,7 @@ class IndexController extends Controller {
 		$tableMap = [];
 		$tableList = Customer_Application_Table::get();
 		foreach($tableList as $table){
-			$tableMap[$table->table_name] = DB::table($table->table_name.'_map')->where('meta','=','0')->get();
+			$tableMap[$table->table_name] = DB::table($table->table_name.'_map')->where('meta','=','1')->get();
 
 		}
 		return view('admin.form-settings',compact('tableList','tableMap'));
@@ -80,7 +80,7 @@ class IndexController extends Controller {
 		try{
 
 //				DB::table($table)->truncate();
-				DB::table($table)->where('meta','=','0')->delete();
+				DB::table($table)->where('meta','=','1')->delete();
 				if($tableForm){
 					DB::table($table)->insert($tableForm);
 				}

@@ -151,6 +151,7 @@ return [
 
 		'Rappasoft\Vault\VaultServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
 
 	],
 
@@ -203,6 +204,7 @@ return [
 
 		'Form'      => 'Illuminate\Html\FormFacade',
 		'HTML'      => 'Illuminate\Html\HtmlFacade',
+		'PDF' => 'Barryvdh\DomPDF\Facade',
 
 	],
 

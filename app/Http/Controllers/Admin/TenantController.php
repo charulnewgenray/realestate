@@ -41,7 +41,8 @@ class TenantController extends Controller {
 
     public function activeinfo($id){
         $leaseDocuments = DB::table('lease_documents_pdfs')->where('user_id','=',$id)->get();
-        return view('admin.active-info',compact('leaseDocuments'));
+        $applicationDocuments = DB::table('application_pdfs')->where('user_id','=',$id)->get();
+        return view('admin.active-info',compact('leaseDocuments','applicationDocuments'));
     }
     public function pendinginfo($id){
         $applicationInfo = DB::table('customer_property_application')->where('application_no','=',$id)->first();

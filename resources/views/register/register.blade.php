@@ -111,11 +111,11 @@
 										<label class="control-label col-md-4">{{$field->label}}</label>
 										<div class="col-md-8">
 											@if($field->meta)
-												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
-											@else
 												<input type="hidden" name="{{$key .'_meta['.$index.']['.'application_no'.']'}}" class="form-control input-sm" value="{{$id}}" placeholder="">
-												<input type="hidden" name="{{$key .'_meta['.$index.'][field_name]'}}" class="form-control input-sm" value="{{$field->field}}" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
-												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
+												<input type="hidden" name="{{$key .'_meta['.$index.'][field_name]'}}" class="form-control input-sm" value="{{$field->field}}" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
+												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
+											@else
+												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
 											@endif
 
 
@@ -330,7 +330,7 @@
         
 /* Model Actions*/
 		jQuery(document).ready(function() {
-			
+
 			var application_url = "{{route('register.application.index')}}";
 			var load_application_url = "/register/loadApplication";
 			var current_url = "{{Request::path()}}";

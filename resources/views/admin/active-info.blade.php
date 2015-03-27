@@ -50,16 +50,18 @@
                             <label class="control-label">Application Pdf</label>
                         </div>
                     </div>
+                    @foreach($applicationDocuments as $key => $applicationDocument)
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="control-label">1 .Pdf</label>
+                            <label class="col-md-1 control-label"><?php echo $key+1;?></label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"><a href="/application_forms/{{$applicationDocument->path}}">{{$applicationDocument->path}}</a></p>
+                                <!--<label class="control-label col-md-6">{{$applicationDocument->path}}</label>-->
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label">2 .Pdf</label>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
 
             </div>

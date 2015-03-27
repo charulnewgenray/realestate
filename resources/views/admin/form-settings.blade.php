@@ -30,6 +30,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
+                                        <input type="hidden" name="row[{{$key}}][meta]" value="{{$map->meta}}">
                                         <input type="text" id="name" name="row[{{$key}}][field]" value="{{$map->field}}" class="form-control input-sm" placeholder="name">
                                     </div>
                                     <div class="col-xs-2">
@@ -70,17 +71,19 @@
             $(document).on('click','.delete',function(){
                 var tableid = $(this).data('deleteid');
                 var rowid = $(this).data('field');
-                console.log(tableid);
+                //console.log(tableid);
                 $("[data-tableid='" + tableid + "']").find("[data-rowid='" + rowid + "']").remove();
             });
             $('.add_field').on('click',function(){
                 var id = $(this).data('id');
-                console.log(id);
-                var nextId = parseInt($("[data-tableid='" + id + "'] .row").last().data('rowid')) + 1;
-                console.log(nextId);
+                if($("[data-tableid='" + id + "'] .row").last().data('rowid')){
+                    var nextId = parseInt($("[data-tableid='" + id + "'] .row").last().data('rowid')) + 1;
+                }else{
+                    var nextId = 1;
+                }
                 var html = '<div class="row" data-rowid="'+nextId+'"><div class="col-xs-2"><div class="form-group">' +
                         '<select class="form-control input-sm" name="row['+nextId+'][type]"><option  value="text">Text</option><option value="textarea">Textarea</option><option value="hidden">Hidden</option></select></div></div>'+
-                        '<div class="col-xs-2"><input type="text"  name="row['+nextId+'][field]" value="" class="form-control input-sm" placeholder="name"></div>'+
+                        '<div class="col-xs-2"><input type="hidden" name="row['+nextId+'][meta]" value="1"><input type="text"  name="row['+nextId+'][field]" value="" class="form-control input-sm" placeholder="name"></div>'+
                         '<div class="col-xs-2"><input type="text"  name="row['+nextId+'][label]" value="" class="form-control input-sm" placeholder="label"></div>'+
                         '<div class="col-xs-1"><div class=""><input class="input-sm" type="checkbox" value="" name="row['+nextId+'][required]"></div>'+
                         '</div>' +
