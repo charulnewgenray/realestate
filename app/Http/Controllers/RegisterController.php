@@ -27,10 +27,10 @@ class RegisterController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($id)
 	{
-		$personalInformation = array();
-		return view('register.register', compact('personalInformation'));
+		$property_id = $id;
+		return view('register.register',compact('property_id'));
 
 
 	}
@@ -60,10 +60,9 @@ class RegisterController extends Controller
 	}
 	public function postRegister()
 	{
-
 		parse_str(Input::get('form'), $formData);
+//		dd(Input::get('make_pdf'));;
 		$user_id = $formData['user_id'];
-//		dd($formData);
 		$tableList = Customer_Application_Table::lists('table_heading', 'table_name');
 		foreach ($tableList as $key => $value) {
 			if ($formData[$key]) {
@@ -100,223 +99,257 @@ class RegisterController extends Controller
 
 		}
 		if($status=="Failed"){
-
 			return ['status' => $status, 'message' => $message];
-		}elseif($status=="Success"){
-			$table_class = "border-collapse: collapse;font-size:10px;";
-			$tr_class = "";
-			$td_class = "border: 1px solid #999;padding: 0.25rem;text-align: left";
-			$application_no = $formData['application_no'];
-			$data = [];
-			$dataMap = [];
-			$residenceTable = ['customer_current_residence_history','customer_previous_residence_history','customer_prior_residence_history'];
-			$employmentTable = ['customer_current_employment_history','customer_previous_employment_history','customer_prior_employment_history'];
-			$creditTable = ['customer_saving_credit_history','customer_checking_credit_history','customer_credit_credit_history','customer_auto_credit_history'];
-			$referenceTable = ['customer_doctor_references','customer_lawyer_references','customer_native_references'];
-			$residenceArray = [];
-			$employmentArray = [];
-			$creditArray = [];
-			$referenceArray = [];
-			$tableList = Customer_Application_Table::orderBy('section', 'asc')->lists('table_heading', 'table_name');
-			$tableSection = Customer_Application_Table::orderBy('section', 'asc')->select('table_heading', 'section', 'table_name')->get();
-			$dataSection = [];
-			foreach ($tableSection as $key => $section) {
-				$dataSection[$section->table_name] = ['heading' => $section->table_heading, 'section' => $section->section];
-			}
-			foreach ($tableList as $key => $value) {
-				$data[$key] = DB::table($key)->where('application_no', '=', $application_no)->first();
-				$data_meta = DB::table($key . '_meta')->where('application_no', '=', $application_no)->get();
-
-				$metaArr = array();
-				foreach ($data_meta as $meta) {
-					$fieldName = $meta->field_name;
-					$data[$key]->$fieldName = $meta->field_value;
+		}elseif($status=="Success") {
+			if (Input::get('make_pdf') == 1) {
+				$table_class = "border-collapse: collapse;font-size:10px;";
+				$tr_class = "";
+				$tb_heading = "font-size:13px;margin-top:10px;top:10px;font-weight:bold;";
+				$td_class = "border: 1px solid #999;padding: 0.25rem;text-align: left";
+				$application_no = $formData['application_no'];
+				$data = [];
+				$dataMap = [];
+				$residenceTable = ['customer_current_residence_history', 'customer_previous_residence_history', 'customer_prior_residence_history'];
+				$employmentTable = ['customer_current_employment_history', 'customer_previous_employment_history', 'customer_prior_employment_history'];
+				$creditTable = ['customer_saving_credit_history', 'customer_checking_credit_history', 'customer_credit_credit_history', 'customer_auto_credit_history'];
+				$referenceTable = ['customer_doctor_references', 'customer_lawyer_references', 'customer_native_references'];
+				$residenceArray = [];
+				$employmentArray = [];
+				$creditArray = [];
+				$referenceArray = [];
+				$tableList = Customer_Application_Table::orderBy('section', 'asc')->lists('table_heading', 'table_name');
+				$tableSection = Customer_Application_Table::orderBy('section', 'asc')->select('table_heading', 'section', 'table_name')->get();
+				$dataSection = [];
+				foreach ($tableSection as $key => $section) {
+					$dataSection[$section->table_name] = ['heading' => $section->table_heading, 'section' => $section->section];
 				}
-				$dataMap[$key] = DB::table($key . '_map')->get();
-			}
-			$html = "";
-			foreach($dataMap as $key=>$value){
+				foreach ($tableList as $key => $value) {
+					$data[$key] = DB::table($key)->where('application_no', '=', $application_no)->first();
+					$data_meta = DB::table($key . '_meta')->where('application_no', '=', $application_no)->get();
 
-
-				if($key=="customer_personal_information"){
-					$html .= $dataSection[$key]["heading"];
-					$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-					$index = 0;$count = count($value);
-					foreach($value as $field){
-						//$html .= $index;
-						$fieldName = $field->field;
-						if(($index % 3) == 0 || $index == 0){
-							$html .= '<tr>';
-						}
-
-						$html .= '<td style="'.$td_class.'" width="12%">'.$field->label.'</td>';
-						$html .= '<td style="'.$td_class.'" width="21.33%">'.$data[$key]->$fieldName.'</td>';
-						if(($index % 3) == 2 || $index == $count-1){
-							$html .= '</tr>';
-						}
-						$index = $index + 1;
+					$metaArr = array();
+					foreach ($data_meta as $meta) {
+						$fieldName = $meta->field_name;
+						$data[$key]->$fieldName = $meta->field_value;
 					}
-					$html .= '</table>';
-
-				}else if($key == "customer_occupants_information"){
-					$html .= $dataSection[$key]["heading"];
-					$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-					$html .= '<thead><tr>';
-					foreach($value as $field){
-						$html .= '<th style="'.$td_class.'">'.$field->label.'</th>';
-					}
-					$html .= '</tr></thead>';
-
-					$index = 0;$count = count($value);
-					$html .= '<tbody>';
-					foreach($value as $field){
-						//$html .= $index;
-						$fieldName = $field->field;
-						if(($index % 3) == 0 || $index == 0){
-							$html .= '<tr>';
-						}
-						$html .= '<td style="'.$td_class.'" width="21.33%">'.$data[$key]->$fieldName.'</td>';
-						if(($index % 3) == 2 || $index == $count-1){
-							$html .= '</tr>';
-						}
-						$index = $index + 1;
-					}
-					$html .= '</tbody>';
-					$html .= '</table>';
+					$dataMap[$key] = DB::table($key . '_map')->get();
 				}
-
-				else if(in_array($key,$residenceTable)){
-					foreach($value as $field){
-						$fieldName = $field->field;
-						$residenceArray[$field->label][$key] = $data[$key]->$fieldName;
-					}
-					if($key == "customer_prior_residence_history"){
-						$html .= 'Rental Residence History';
-						$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-						$html .= '<thead>';
-						$html .= '<tr>';
-						$html .= '<th style="'.$td_class.'"></th><th style="'.$td_class.'">'.'Current Residence'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Previous Residence'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Prior Residence'.'</th>';
-						$html .= '</tr>';
-						$html .= '</thead><tbody>';
-
-						foreach($residenceArray as $keylabel => $residence){
-
-							$html .= '<tr>';
-							$html .= '<td style="'.$td_class.'" width="21.33%">'.$keylabel.'</td>';
-						foreach($residence as $residence1){
-							if(isset($residence1)){
-								$html .= '<td style="'.$td_class.'" width="21.33%">'.$residence1.'</td>';
+				$html = "";
+				foreach ($dataMap as $key => $value) {
+					if ($key == "customer_personal_information") {
+						$html .= '<div style="' . $tb_heading . '">' . $dataSection[$key]["heading"] . '</div>';
+						$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+						$index = 0;
+						$count = count($value);
+						foreach ($value as $field) {
+							//$html .= $index;
+							$fieldName = $field->field;
+							if (($index % 3) == 0 || $index == 0) {
+								$html .= '<tr>';
 							}
+
+							$html .= '<td style="font-weight:bold;' . $td_class . '" width="12%">' . $field->label . '</td>';
+							$html .= '<td style="' . $td_class . '" width="21.33%">' . $data[$key]->$fieldName . '</td>';
+							if (($index % 3) == 2 || $index == $count - 1) {
+								$html .= '</tr>';
+							}
+							$index = $index + 1;
 						}
-							$html .= '</tr>';
+						$html .= '</table>';
+
+					} else if ($key == "customer_occupants_information") {
+						$html .= '<div style="' . $tb_heading . '">' . $dataSection[$key]["heading"] . '</div>';
+						$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+						$html .= '<thead><tr>';
+						foreach ($value as $field) {
+							$html .= '<th style="' . $td_class . '">' . $field->label . '</th>';
 						}
-						$html .= '</tbody></table>';
-					}
+						$html .= '</tr></thead>';
 
-				}
-				else if(in_array($key,$employmentTable)){
-					foreach($value as $field){
-						$fieldName = $field->field;
-						$employmentArray[$field->label][$key] = $data[$key]->$fieldName;
-					}
-					if($key == "customer_current_employment_history"){
-						$html .= 'Employment History';
-						$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-						$html .= '<thead>';
-						$html .= '<tr>';
-						$html .= '<th style="'.$td_class.'"></th><th style="'.$td_class.'">'.'Prior Employment'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Previous Employment'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Current Employment'.'</th>';
-						$html .= '</tr>';
-						$html .= '</thead><tbody>';
-
-						foreach($employmentArray as $keylabel => $employment){
-
+						$index = 0;
+						$count = count($value);
+						$html .= '<tbody>';
+						foreach ($value as $field) {
+							//$html .= $index;
+							$fieldName = $field->field;
+							if (($index % 3) == 0 || $index == 0) {
+								$html .= '<tr>';
+							}
+							$html .= '<td style="' . $td_class . '" width="21.33%">' . $data[$key]->$fieldName . '</td>';
+							if (($index % 3) == 2 || $index == $count - 1) {
+								$html .= '</tr>';
+							}
+							$index = $index + 1;
+						}
+						$html .= '</tbody>';
+						$html .= '</table>';
+					} else if (in_array($key, $residenceTable)) {
+						foreach ($value as $field) {
+							$fieldName = $field->field;
+							$residenceArray[$field->label][$key] = $data[$key]->$fieldName;
+						}
+						if ($key == "customer_prior_residence_history") {
+							$html .= '<div style="' . $tb_heading . '"> Rental Residence History' . '</div>';
+							$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+							$html .= '<thead>';
 							$html .= '<tr>';
-							$html .= '<td style="'.$td_class.'" width="21.33%">'.$keylabel.'</td>';
-							foreach($employment as $employmen1){
-								if(isset($employmen1)){
-									$html .= '<td style="'.$td_class.'" width="21.33%">'.$employmen1.'</td>';
+							$html .= '<th style="' . $td_class . '"></th><th style="' . $td_class . '">' . 'Current Residence' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Previous Residence' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Prior Residence' . '</th>';
+							$html .= '</tr>';
+							$html .= '</thead><tbody>';
+
+							foreach ($residenceArray as $keylabel => $residence) {
+
+								$html .= '<tr>';
+								$html .= '<td style="' . $td_class . '" width="21.33%">' . $keylabel . '</td>';
+								foreach ($residence as $residence1) {
+									if (isset($residence1)) {
+										$html .= '<td style="' . $td_class . '" width="21.33%">' . $residence1 . '</td>';
+									}
 								}
+								$html .= '</tr>';
 							}
-							$html .= '</tr>';
+							$html .= '</tbody></table>';
 						}
-						$html .= '</tbody></table>';
-					}
 
-				}
-				else if(in_array($key,$creditTable)){
-					foreach($value as $field){
-						$fieldName = $field->field;
-						$creditArray[$field->label][$key] = $data[$key]->$fieldName;
-					}
-					if($key == "customer_saving_credit_history"){
-						$html .= 'Credit History';
-						$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-						$html .= '<thead>';
-						$html .= '<tr>';
-						$html .= '<th style="'.$td_class.'"></th><th style="'.$td_class.'">'.'Auto Credit'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Credit Credit'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Checking Credit'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Saving Credit'.'</th>';
-						$html .= '</tr>';
-						$html .= '</thead><tbody>';
-
-						foreach($creditArray as $keylabel => $credit){
-
+					} else if (in_array($key, $employmentTable)) {
+						foreach ($value as $field) {
+							$fieldName = $field->field;
+							$employmentArray[$field->label][$key] = $data[$key]->$fieldName;
+						}
+						if ($key == "customer_current_employment_history") {
+							$html .= '<div style="' . $tb_heading . '"> Employment History' . '</div>';
+							$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+							$html .= '<thead>';
 							$html .= '<tr>';
-							$html .= '<td style="'.$td_class.'" width="21.33%">'.$keylabel.'</td>';
-							foreach($credit as $credit1){
-								if(isset($credit1)){
-									$html .= '<td style="'.$td_class.'" width="21.33%">'.$credit1.'</td>';
-								}
-							}
+							$html .= '<th style="' . $td_class . '"></th><th style="' . $td_class . '">' . 'Prior Employment' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Previous Employment' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Current Employment' . '</th>';
 							$html .= '</tr>';
+							$html .= '</thead><tbody>';
+
+							foreach ($employmentArray as $keylabel => $employment) {
+
+								$html .= '<tr>';
+								$html .= '<td style="' . $td_class . '" width="21.33%">' . $keylabel . '</td>';
+								foreach ($employment as $employmen1) {
+									if (isset($employmen1)) {
+										$html .= '<td style="' . $td_class . '" width="21.33%">' . $employmen1 . '</td>';
+									}
+								}
+								$html .= '</tr>';
+							}
+							$html .= '</tbody></table>';
 						}
-						$html .= '</tbody></table>';
-					}
 
-				}
-				else if(in_array($key,$referenceTable)){
-					foreach($value as $field){
-						$fieldName = $field->field;
-						$referenceArray[$field->label][$key] = $data[$key]->$fieldName;
-					}
-					if($key == "customer_native_references"){
-						$html .= 'Reference History';
-						$html .= '<table border="0" cellspacing="0" width="100%" style="'. $table_class .'">';
-						$html .= '<thead>';
-						$html .= '<tr>';
-						$html .= '<th style="'.$td_class.'"></th><th style="'.$td_class.'">'.'Doctor Reference'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Lawyer Reference'.'</th>';
-						$html .= '<th style="'.$td_class.'">'.'Native Reference'.'</th>';
-						$html .= '</tr>';
-						$html .= '</thead><tbody>';
+					} else if ($key == "customer_vehicles") {
+						$html .= '<div style="' . $tb_heading . '">' . $dataSection[$key]["heading"] . '</div>';
+						$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+						$html .= '<thead><tr>';
+						foreach ($value as $field) {
+							$html .= '<th style="' . $td_class . '">' . $field->label . '</th>';
+						}
+						$html .= '</tr></thead>';
 
-						foreach($referenceArray as $keylabel => $reference){
-
+						$index = 0;
+						$count = count($value);
+						$html .= '<tbody>';
+						foreach ($value as $field) {
+							$fieldName = $field->field;
+							if ($index == 0) {
+								$html .= '<tr>';
+							}
+							$html .= '<td style="' . $td_class . '" width="21.33%">' . $data[$key]->$fieldName . '</td>';
+							if ($index == $count - 1) {
+								$html .= '</tr>';
+							}
+							$index = $index + 1;
+						}
+						$html .= '</tbody>';
+						$html .= '</table>';
+					} else if (in_array($key, $creditTable)) {
+						foreach ($value as $field) {
+							$fieldName = $field->field;
+							$creditArray[$field->label][$key] = $data[$key]->$fieldName;
+						}
+						if ($key == "customer_saving_credit_history") {
+							$html .= '<div style="' . $tb_heading . '"> Credit History' . '</div>';
+							$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+							$html .= '<thead>';
 							$html .= '<tr>';
-							$html .= '<td style="'.$td_class.'" width="21.33%">'.$keylabel.'</td>';
-							foreach($reference as $reference1){
-								if(isset($reference1)){
-									$html .= '<td style="'.$td_class.'" width="21.33%">'.$reference1.'</td>';
+							$html .= '<th style="' . $td_class . '"></th><th style="' . $td_class . '">' . 'Auto Credit' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Credit Credit' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Checking Credit' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Saving Credit' . '</th>';
+							$html .= '</tr>';
+							$html .= '</thead><tbody>';
+
+							foreach ($creditArray as $keylabel => $credit) {
+
+								$html .= '<tr>';
+								$html .= '<td style="' . $td_class . '" width="21.33%">' . $keylabel . '</td>';
+								foreach ($credit as $credit1) {
+									if (isset($credit1)) {
+										$html .= '<td style="' . $td_class . '" width="21.33%">' . $credit1 . '</td>';
+									}
 								}
+								$html .= '</tr>';
 							}
+							$html .= '</tbody></table>';
+						}
+
+					} else if (in_array($key, $referenceTable)) {
+						foreach ($value as $field) {
+							$fieldName = $field->field;
+							$referenceArray[$field->label][$key] = $data[$key]->$fieldName;
+						}
+						if ($key == "customer_native_references") {
+							$html .= '<div style="' . $tb_heading . '"> Reference History' . '</div>';
+							$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+							$html .= '<thead>';
+							$html .= '<tr>';
+							$html .= '<th style="' . $td_class . '"></th><th style="' . $td_class . '">' . 'Doctor Reference' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Lawyer Reference' . '</th>';
+							$html .= '<th style="' . $td_class . '">' . 'Native Reference' . '</th>';
+							$html .= '</tr>';
+							$html .= '</thead><tbody>';
+
+							foreach ($referenceArray as $keylabel => $reference) {
+
+								$html .= '<tr>';
+								$html .= '<td style="' . $td_class . '" width="21.33%">' . $keylabel . '</td>';
+								foreach ($reference as $reference1) {
+									if (isset($reference1)) {
+										$html .= '<td style="' . $td_class . '" width="21.33%">' . $reference1 . '</td>';
+									}
+								}
+								$html .= '</tr>';
+							}
+							$html .= '</tbody></table>';
+						}
+
+					} else if ($key == "customer_general_information") {
+						$html .= '<div style="' . $tb_heading . '">' . $dataSection[$key]["heading"] . '</div>';
+						$html .= '<table border="0" cellspacing="0" width="100%" style="' . $table_class . '">';
+						foreach ($value as $field) {
+							//$html .= $index;
+							$fieldName = $field->field;
+							$html .= '<tr style="font-weight:bold;' . $td_class . '"><td>' . $field->label . '</td></tr>';
+							$html .= '<tr>';
+							$html .= '<td style="' . $td_class . '" width="21.33%">' . $data[$key]->$fieldName . '</td>';
 							$html .= '</tr>';
 						}
-						$html .= '</tbody></table>';
+						$html .= '</table>';
 					}
 
 				}
-
-			}
-			$pdf = App::make('dompdf');
-			$pdf->loadHTML($html);
-			$pdfName = $application_no.'_'.strtotime(Carbon::now());
-			$pdf->save(public_path().'/application_forms/application_'.$pdfName.'.pdf')->stream('download.pdf');
-			$savePdf = Application_Pdf::create(['user_id'=>$user_id,'application_no'=>$application_no,'path'=>'application_'.$pdfName.'.pdf']);
+				$pdf = App::make('dompdf');
+				$pdf->loadHTML($html);
+				$pdfName = $application_no . '_' . strtotime(Carbon::now());
+				$pdf->save(public_path() . '/application_forms/application_' . $pdfName . '.pdf')->stream('download.pdf');
+				$savePdf = Application_Pdf::create(['user_id' => $user_id, 'application_no' => $application_no, 'path' => 'application_' . $pdfName . '.pdf']);
+		}
 			$message = 'Information Has been successfully updated';
 			return ['status' => $status, 'message' => $message];
 		}
@@ -398,7 +431,8 @@ class RegisterController extends Controller
 
 
 			}
-			return view('register.register', compact('data', 'dataMap', 'dataSection', 'id'));
+			$property_id = DB::table('customer_property_application')->where('application_no','=',$id)->pluck('property_id');
+			return view('register.register', compact('data', 'dataMap', 'dataSection', 'id','property_id'));
 		} else {
 			$data = NULL;
 		}

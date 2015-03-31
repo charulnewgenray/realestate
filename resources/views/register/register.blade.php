@@ -32,7 +32,7 @@
 				<div class="portlet-body form">
 					{!! Form::model($data,array('method'=>'post','class'=> 'form-horizontal','url' => route('register.register.postRegister'), 'id'=>'submit_form')) !!}
 					<input type="hidden" name="user_id" value="{{Auth::id()}}">
-					<input type="hidden" name="property_id" value="1">
+					<input type="hidden" name="property_id" value="{{$property_id}}">
 					<input type="hidden" name="application_no" value="{{$id}}">
 					<div class="form-wizard">
 						<div class="form-body">
@@ -113,9 +113,9 @@
 											@if($field->meta)
 												<input type="hidden" name="{{$key .'_meta['.$index.']['.'application_no'.']'}}" class="form-control input-sm" value="{{$id}}" placeholder="">
 												<input type="hidden" name="{{$key .'_meta['.$index.'][field_name]'}}" class="form-control input-sm" value="{{$field->field}}" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
-												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
+												<input type="{{$field->type}}" name="{{$key .'_meta['.$index.'][field_value]'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
 											@else
-												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?>  <?php } ?>>
+												<input type="{{$field->type}}" name="{{$key .'['.$field->field.']'}}" class="form-control input-sm" value="@if(isset($data[$key]->$fieldName)){{$data[$key]->$fieldName}}@endif" placeholder="" <?php if($field->required){ ?> required <?php } ?>>
 											@endif
 
 

@@ -19,8 +19,7 @@
             <thead>
             <tr>
                 <th>Application No.</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Applicant</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -29,11 +28,10 @@
             @foreach($tenants as $tenant)
                 <tr>
                     <td>{{$tenant->application_no}}</td>
-                    <td>{{$tenant->name}}</td>
-                    <td>{{$tenant->email}}</td>
+                    <td>{{$tenant->applicant_email}}</td>
                     <td>{{$tenant->status}}</td>
                     @if($type == "active")
-                        <td><a href="{{route('admin.tenant.activeinfo',['id'=>$tenant->application_no])}}">View</a></td>
+                        <td><a href="{{route('admin.tenant.activeinfo',['id'=>$tenant->user_id])}}">View</a></td>
                     @elseif($type == "pending")
                         <td><a href="{{route('admin.tenant.pendinginfo',['id'=>$tenant->application_no])}}">View</a></td>
                     @elseif($type == "canceled")

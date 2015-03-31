@@ -24,7 +24,7 @@ Route::get('/home', function(){
 	else return Redirect::to('/');
 
 });
-Route::get('/register', 'RegisterController@index');
+Route::get('/register/{id}', 'RegisterController@index');
 Route::get('/register/application',['as' => 'register.application.index','uses' => 'RegisterController@index']);
 Route::get('/register/loadApplication/{id}/{application_no}',['as' => 'register.application.load','uses' => 'RegisterController@load']);
 Route::get('/register/application/{id}',['as' => 'register.application','uses' => 'RegisterController@show']);
@@ -81,6 +81,8 @@ Route::group([
 		Route::get('/tenant/pendinginfo/{id}',['as' => 'admin.tenant.pendinginfo','uses' => 'Admin\TenantController@pendinginfo']);
 		Route::get('/tenant/canceledinfo/{id}',['as' => 'admin.tenant.canceledinfo','uses' => 'Admin\TenantController@canceledinfo']);
 		Route::post('/tenant/pendingpost',['as' => 'admin.tenant.pendingpost','uses' => 'Admin\TenantController@pendingpost']);
+		Route::post('/tenant/postinactive',['as' => 'admin.tenant.postChangeStatus','uses' => 'Admin\TenantController@postChangeStatus']);
+		Route::post('/tenant/postcancel',['as' => 'admin.tenant.postChangeStatus','uses' => 'Admin\TenantController@postChangeStatus']);
 
 	});
 });

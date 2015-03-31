@@ -1,0 +1,14 @@
+Realestate:-
+->Frontend:-
+	1.on register page residence data is not saving.
+	2.validation not done on register form.
+	3.on last step the save process is not working on frontend.
+	
+Backend:-
+	Teanant:-
+	1.Form is remaining to show on tabs and make editable these.(done)
+	
+Task:-
+->when user will submit the form at last then the status would be submitted.
+->submitted ::A email will send after submittion form to the admin and customer.
+->

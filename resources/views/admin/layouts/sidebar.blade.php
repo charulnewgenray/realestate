@@ -16,7 +16,7 @@
                 <!-- END SIDEBAR TOGGLER BUTTON -->
             </li>
             <li class="start {{Request::path() == '/admin' ? 'active' : ''}}">
-                <a href="javascript:;">
+                <a href="{{route('admin.dashboard.index')}}">
                     <i class="icon-home"></i>
                     <span class="title">Dashboard</span>
                 </a>
@@ -82,11 +82,11 @@
                     {{--<li>{{Request::path() }}</li>--}}
                     <li class="{{Request::path() == 'admin/tenant/active' ? 'active' : ''}}">
                         <a href="{{route('admin.tenant.active')}}">
-                            Active</a>
+                            Tenants</a>
                     </li>
                     <li class="{{Request::path() == 'admin/tenant/pending' ? 'active' : ''}}">
                         <a href="{{route('admin.tenant.pending')}}">
-                            Inactive</a>
+                            Pending</a>
                     </li>
                     <li class="{{Request::path() == 'admin/tenant/canceled' ? 'active' : ''}}">
                         <a href="{{route('admin.tenant.canceled')}}">

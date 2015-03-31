@@ -2,6 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Lease_Log;
+use App\Models\Admin\Lease_Pdf;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,6 +21,7 @@ class TenantController extends Controller {
         $tenantId = DB::table('roles')->select('id')->where('name','=','Tenant')->first();
         $tenants = DB::table('users')->join('assigned_roles', 'users.id', '=', 'assigned_roles.user_id')
                                     ->join('customer_property_application', 'users.id', '=', 'customer_property_application.user_id')
+                                    ->join('lease_agreement', 'users.id', '=', 'lease_agreement.user_id')
                                     ->where('assigned_roles.role_id','=',$tenantId->id)
                                     ->where('users.status','=',1)
                                     ->where('customer_property_application.status','=','Completed')
@@ -28,42 +31,42 @@ class TenantController extends Controller {
     }
     /**  get inactive tenants **/
     public function pending(){
-        $tenants = DB::table('customer_property_application')->where('status','=','Approved')->get();
-       $type = 'pending';
+        $getApplicationNo = DB::table('lease_agreement')->select('application_no')->get();
+        $applicationArr = [];
+        foreach($getApplicationNo as $getApplication){
+                $applicationArr[] = $getApplication->application_no;
+        }
+        $tenants = DB::table('customer_property_application')->where('status','=','Approved')->whereNotIn('application_no', $applicationArr)->get();
+        $type = 'pending';
         return view('admin.pending-list',compact('tenants','type'));
     }
     /**  get canceled tenants **/
     public function canceled(){
-        $tenants = [];
+        $tenants = DB::table('customer_property_application')->where('status','=','Canceled')->get();
         $type = 'canceled';
-        return view('admin.list',compact('tenants','type'));
+        return view('admin.canceled-list',compact('tenants','type'));
     }
 
     public function activeinfo($id){
-        $leaseDocuments = DB::table('lease_documents_pdfs')->where('user_id','=',$id)->get();
-        $applicationDocuments = DB::table('application_pdfs')->where('user_id','=',$id)->get();
-        return view('admin.active-info',compact('leaseDocuments','applicationDocuments'));
+        $leaseDocuments = DB::table('lease_documents_pdfs')->where('application_no','=',$id)->get();
+        $applicationDocuments = DB::table('application_pdfs')->where('application_no','=',$id)->get();
+        $leaseAgreement = DB::table('lease_agreement')->where('application_no','=',$id)->first();
+        return view('admin.active-info',compact('leaseDocuments','applicationDocuments','leaseAgreement','id'));
     }
     public function pendinginfo($id){
         $applicationInfo = DB::table('customer_property_application')->where('application_no','=',$id)->first();
         return view('admin.pending-info',compact('applicationInfo'));
     }
     public function pendingpost(){
-
         $applicant_email = Input::get('applicant_email');
         $data = Input::except('_token','applicant_email');
-//        dd($_SERVER['HTTP_HOST']);
         if($applicant_email){
             // find in users table that email is exist or not
             $findApplicant = DB::table('users')->where('email','=',$applicant_email)->first();
-
             $tenantRoleId = DB::table('roles')->select('id')->where('name','=','Tenant')->first();
-
             if($findApplicant){
-
                 // find the exist email that this email user is tenant or not
                 if($tenantRoleId){
-
                     // find in the assigned role table that the user is already a tenant
                     $isUserTenant = DB::table('assigned_roles')->where('user_id','=',$findApplicant->id)
                                                                 ->where('role_id','=',$tenantRoleId->id)->first();
@@ -95,14 +98,31 @@ class TenantController extends Controller {
                 $rand = rand(0000,9999);
                 $destinationPath = 'leasedocuments'.'/'.$rand.'_'.$_FILES['file']['name'];
                 move_uploaded_file($_FILES['file']['tmp_name'],$destinationPath);
-                DB::table('lease_documents_pdfs')->insert(['user_id'=>$user_id,'application_no'=>Input::get('application_no'),'path'=>$destinationPath,'start_date'=>$data['start_date'],'end_date'=>$data['end_date']]);
+                Lease_Pdf::create(['user_id'=>$user_id,'application_no'=>Input::get('application_no'),'path'=>$destinationPath]);
+                DB::table('lease_agreement')->insert(['user_id'=>$user_id,'application_no'=>Input::get('application_no'),'agreement_no'=>12345,'start_date'=>$data['start_date'],'end_date'=>$data['end_date'],'status'=>'Active']);
+                $userEmail = User::find($user_id);
+                Lease_Log::create(['user_email'=>$userEmail->email,'applicant_email'=>$applicant_email,'status'=>'Active','start_date'=>$data['start_date'],'end_date'=>$data['end_date']]);
             }
 
         }
         return redirect()->route('admin.tenant.pendinginfo',['id'=>$data['application_no']]);
     }
-    public function canceledinfo(){
-        return view('admin.canceled-info');
+    public function canceledinfo($id){
+        $applicationInfo = DB::table('customer_property_application')->where('application_no','=',$id)->first();
+        return view('admin.canceled-info',compact('applicationInfo'));
     }
+
+    public function postChangeStatus(){
+        if(Input::get('cancel')==1){
+            DB::table('customer_property_application')->where('application_no','=',Input::get('application_no'))->update(['status'=>'Canceled']);
+            $message = 'This tenant has successfully canceled!';
+        }
+        $email = DB::table('customer_property_application')->select('applicant_email')->where('application_no','=',Input::get('application_no'))->first();
+        Lease_Log::where('applicant_email','=',$email->applicant_email)->update(['status'=>'Inactive']);
+        DB::table('lease_agreement')->where('application_no','=',Input::get('application_no'))->update(['status'=>'Inactive']);
+        $message = 'This tenant has successfully inactive!';
+        return redirect()->back()->with('success',$message);
+    }
+
 
 }
